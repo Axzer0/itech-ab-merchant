@@ -1,0 +1,31 @@
+.dollarImg{
+	right: 0px;
+	width: 49px;
+	position: absolute;
+}
+
+.example-container {
+	overflow-x: scroll;
+}
+.mat-cell,
+.mat-header-cell {
+	word-wrap: initial;
+	display: table-cell;
+	padding: 0px 10px;
+	line-break: unset;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	vertical-align: middle;
+}
+
+.mat-row,
+.mat-header-row {
+	display: table-row;
+}
+
+.sell-graph {
+	min-height: 189px;
+	height: 189px;
+	max-height: 189px;
+}

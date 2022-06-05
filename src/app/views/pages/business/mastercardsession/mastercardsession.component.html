@@ -1,0 +1,158 @@
+<div style="background-color: white; border-radius: 8px; padding: 20px">
+	<div class="row">
+		<div class="col-2"></div>
+		<div class="col-4"
+			 style="border-style: solid; margin-right: 40px; border-radius: 21px; border-color: #cbcbcb80; padding: 26px">
+			<div class="row">
+				<div class="col-3">
+					<img width="70px" [src]="companyLogo" alt="Store Logo">
+				</div>
+				<div class="col-6">
+					<h4 style="text-align: center; margin-top: 20px;"><u>{{companyInformation?.companyName}}</u></h4>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col-6"><p>Payment to {{companyInformation?.companyName}}</p></div>
+				<div class="col-6"><p style="float: right">Order
+					Reference: {{paymentGatewayTransaction?.orderReference}}</p></div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<h3>{{paymentGatewayTransaction?.totalAmount}} {{paymentGatewayTransaction?.currency}}</h3></div>
+			</div>
+			<br>
+			<div *ngFor="let data of items">
+				<div class="row">
+					<div class="col-4"><h6>{{data?.name}}</h6></div>
+					<div class="col-5"></div>
+					<div class="col-3"><h6>{{data?.unitAmount}} {{paymentGatewayTransaction?.currency}}</h6></div>
+				</div>
+
+				<div class="row">
+					<div class="col-3"><h6>Qty {{data?.quantity}}</h6></div>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col-3"><h6>Subtotal</h6></div>
+				<div class="col-6"></div>
+				<div class="col-3"><h6></h6>{{paymentGatewayTransaction?.orderAmount}}</div>
+			</div>
+			<hr>
+
+			<div class="row">
+				<div class="col-4"><h6>Discount & Coupons</h6></div>
+				<div class="col-5"></div>
+				<div class="col-3">
+					<h6>{{paymentGatewayTransaction?.purchaseUnit?.discountAmount}} {{paymentGatewayTransaction?.currency}}</h6>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12"><p>discount name/coupon name</p></div>
+			</div>
+
+			<div class="row">
+				<div class="col-4"><h6>Shipping</h6></div>
+				<div class="col-5"></div>
+				<div class="col-3">
+					<h6>{{paymentGatewayTransaction?.purchaseUnit?.shippingAmount}} {{paymentGatewayTransaction?.currency}}</h6>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12"><p>ground shipping (3-5 business days)</p></div>
+			</div>
+
+			<div class="row">
+				<div class="col-4"><h6>Sales Tax(17%)</h6></div>
+				<div class="col-5"></div>
+				<div class="col-3"><h6>{{paymentGatewayTransaction?.purchaseUnit?.tax}} {{paymentGatewayTransaction?.currency}}</h6></div>
+			</div>
+
+			<div class="row">
+				<div class="col-3"><h6>Service Charge</h6></div>
+				<div class="col-6"></div>
+				<div class="col-3"><h6>{{paymentGatewayTransaction?.serviceCharge}} {{paymentGatewayTransaction?.currency}}</h6></div>
+			</div>
+
+			<div class="row">
+				<div class="col-3"><h6>Processing Fee</h6></div>
+				<div class="col-6"></div>
+				<div class="col-3"><h6>{{paymentGatewayTransaction?.processingFee}} {{paymentGatewayTransaction?.currency}}</h6></div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-3"><h6>Total due</h6></div>
+				<div class="col-6"></div>
+				<div class="col-3">
+					<h6>{{paymentGatewayTransaction?.totalAmount}} {{paymentGatewayTransaction?.currency}}</h6>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="col-4" style="border-style: solid; border-radius: 21px; border-color: #cbcbcb80; padding: 26px">
+			<h6 style="text-align: center">Pay with Card</h6>
+			<br>
+			<h6 style="color: #5867dd; cursor: pointer" *ngIf="!visiblePayerInfo" (click)="showPayerInfo()"><u><i
+				class="fas fa-plus"></i> Add Payer Information</u></h6>
+			<h6 style="color: #5867dd; cursor: pointer" *ngIf="visiblePayerInfo" (click)="minimizePayerInfo()"><u><i
+				class="far fa-times-circle"></i> Minimize Payer Information</u></h6>
+			<br>
+			<div *ngIf="visiblePayerInfo">
+				<div class="row">
+					<div class="col-12"><h6>Full Name</h6></div>
+					<div class="col-12"><input type="text" [(ngModel)]="payerInfo.fullName" id="full-name"
+											   class="form-control" title="Full name"
+											   aria-label="Enter Full Name" name="fullName"></div>
+				</div>
+				<br>
+
+				<div class="row">
+					<div class="col-6"><h6>Email</h6></div>
+					<div class="col-6"><h6>Phone</h6></div>
+				</div>
+
+				<div class="row">
+					<div class="col-6"><input type="text" id="email" [(ngModel)]="payerInfo.email" name="email"
+											  class="form-control" title="email"
+											  aria-label="enter an email" value="" tabindex="6"></div>
+					<div class="col-6"><input type="text" id="phone" [(ngModel)]="payerInfo.phone" name="phone"
+											  class="form-control" title="phone"
+											  aria-label="enter phone" value="" tabindex="7"></div>
+				</div>
+				<br>
+
+				<div class="row">
+					<div class="col-12"><h6>Shipping Address</h6></div>
+					<div class="col-6"><input style="margin-bottom: 13px;" type="text" id="address1"
+											  [(ngModel)]="payerInfo.shippingAddress1" name="shippingAddress1"
+											  class="form-control" title="address1"
+											  aria-label="enter address" value="" tabindex="8"></div>
+					<div class="col-6"><input style="margin-bottom: 13px;" type="text" id="address2"
+											  [(ngModel)]="payerInfo.shippingAddress2" name="shippingAddress2"
+											  class="form-control" title="address2"
+											  aria-label="enter address" value="" tabindex="9"></div>
+
+				</div>
+				<div class="col-12">
+					<button style="margin-left: 43%;display: none" type="button" class="btn btn-primary" [disabled]="loadingPayer"
+							[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loadingPayer}"
+							id="saveButton"
+							(click)="save();">Process
+					</button>
+				</div>
+				<br>
+			</div>
+			<div #content [innerHTML]="script"></div>
+
+		</div>
+		<div class="col-2"></div>
+
+	</div>
+</div>

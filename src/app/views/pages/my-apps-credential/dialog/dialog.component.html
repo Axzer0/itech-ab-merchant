@@ -1,0 +1,59 @@
+<div style="padding: 20px">
+	<div class="row justify-content-between">
+		<h4>Preview</h4>
+	</div>
+	<hr>
+	<div class="row">
+		<label class="col-3 text-right font-weight-bold">Application Name:</label>
+		<label class="col-9 ">{{data.obj.applicationName}}</label>
+	</div>
+	<div class="row">
+		<label class="col-3 text-right font-weight-bold">Application Type:</label>
+		<label class="col-9 ">{{data.obj.applicationType}}</label>
+	</div>
+	<div class="row">
+		<label class="col-3 text-right font-weight-bold">Merchant Id:</label>
+		<label class="col-9 ">{{data.obj.merchantId}}</label>
+	</div>
+	<div class="row">
+		<label class="col-3 text-right font-weight-bold">Application Id:</label>
+		<label class="col-9 ">{{data.obj.applicationId}}</label>
+	</div>
+	<div class="row">
+		<label class="col-3 text-right font-weight-bold align-items-center" style="margin-top: 9px">Application Secret:</label>
+		<label class="col-9">
+			{{data.obj.applicationSecret}}
+			<button mat-raised-button color="primary"
+					(click)="updateCredential()"
+					style="height: 33px;padding: 0 20px;margin-left: 5px" matTooltip="Update credential">
+				Generate New Credential
+			</button>
+		</label>
+	</div>
+	<mat-tab-group mat-align-tabs="start">
+		<mat-tab *ngFor="let la of label" [label]="la">
+			<ng-container *ngTemplateOutlet="la == 'Java' ? java:curl" ></ng-container>
+		</mat-tab>
+	</mat-tab-group>
+	<ng-template #curl >
+		<div style="padding:15px;overflow-y: scroll;height: 250px">
+			<p>curl --location --request POST 'https://dev.merchant.emali.africa/innovative/api/v1/rest/merchant/234234/createOrder'</p>
+			<p>--header 'Content-Type: application/json'</p>
+			<pre>--data-raw {{curlJson | json}}</pre>
+		</div>
+	</ng-template>
+	<ng-template #java style="overflow-y: scroll;height: 250px">
+		<div style="padding:15px;overflow-y: scroll;height: 250px">
+			<p>OkHttpClient client = new OkHttpClient().newBuilder().build();</p>
+			<p>MediaType mediaType = MediaType.parse("application/json");</p>
+			<pre>--data-raw{{javaJson | json}}</pre>
+			<p>Request request = new Request.Builder()</p>
+			<p> .url("https://dev.merchant.emali.africa/innovative/api/v1/rest/merchant/234234/createOrder")</p>
+			<p>.method("POST", body)</p>
+			<p>.addHeader("Content-Type", "application/json")</p>
+			<p>.build();</p>
+			<p>Response response = client.newCall(request).execute();</p>
+		</div>
+	</ng-template>
+</div>
+

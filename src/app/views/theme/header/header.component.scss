@@ -1,0 +1,38 @@
+:host {
+	::ng-deep {
+		.kt-loading-bar {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			width: 100%;
+
+			.progress-bar {
+				// brand color
+				background-color: #5d78ff;
+			}
+		}
+
+		.kt-header__topbar-item {
+			height: 100%;
+		}
+
+		@media (min-width: 1025px) {
+			.kt-header__topbar, .kt-header__topbar-item-wrapper {
+				height: 100%;
+			}
+		}
+	}
+}
+
+.flag{
+	background: #5D78FF;
+	color: white;
+	padding: 11px 5pc 0 5pc;
+	height: 50px;
+	border-radius: 10px;
+	margin-top: 8px;
+	margin-left: 25px;
+}
+
+

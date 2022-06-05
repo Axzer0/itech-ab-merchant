@@ -1,0 +1,144 @@
+<kt-portlet>
+    <kt-portlet-header [title]="'Settlement Detail'" [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTools>
+            <button style="margin-left: 8px" (click)="edit()" *ngIf="state == 'DUE'" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}" mat-stroked-button color="warn" matTooltip="Back ">Edit
+			</button>
+
+			<button style="margin-left: 8px" (click)="cancel()"  [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}" mat-stroked-button color="warn" matTooltip="Back ">Back
+			</button>
+
+        </ng-container>
+    </kt-portlet-header>
+    <kt-portlet-body>
+        <div class="row">
+
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">Merchant ID:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <span class="kt-badge kt-badge--inline kt-badge--pill" style="background-color: #41a124; color: white">{{data?.merchantId == '' || data?.merchantId == null ? 'N/A' : data?.merchantId}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">Status:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3">{{data?.status == '' || data?.status == null ? 'N/A' : data?.status}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">Reference ID:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3">{{data?.referenceId == '' || data?.referenceId == null ? 'N/A' : data?.referenceId}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">Voucher ID:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3">
+                        {{data?.voucherId == '' || data?.voucherId == null ? 'N/A' : data?.voucherId}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">Receipt ID:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-3">{{data?.receiptId == '' || data?.receiptId == null ? 'N/A' : data?.receiptId}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">Batch Number:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-5">{{data?.batchNumber == '' || data?.batchNumber == null ? 'N/A' : data?.batchNumber }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">From Date:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-5">{{data?.fromDate == '' || data?.fromDate == null ? 'N/A' : data?.fromDate}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6"><label class="font-weight-bold">To Date:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-5">{{data?.toDate == '' || data?.toDate == null ? 'N/A' : data?.toDate}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-5"><label class="font-weight-bold">Settlement Date:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-4">{{data?.settlementDate == '' || data?.settlementDate == null ? 'N/A' : data?.settlementDate}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-5"><label class="font-weight-bold">Service Charge:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-4">{{data?.serviceCharge == '' || data?.serviceCharge == null ? 'N/A' : data?.serviceCharge}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-5"><label class="font-weight-bold">Processing Fees:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-4">{{data?.processingFees == '' || data?.processingFees == null ? 'N/A' : data?.processingFees}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-5"><label class="font-weight-bold">Total Amount:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-4">{{data?.totalAmount== '' || data?.totalAmount == null ? 'N/A' : data?.totalAmount}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-5"><label class="font-weight-bold">Remaining Amount:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-4">{{data?.remainingAmount== '' || data?.remainingAmount== null ? 'N/A' : data?.remainingAmount}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-5"><label class="font-weight-bold">Settle Amount:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-4">{{data?.settleAmount == '' || data?.settleAmount == null ? 'N/A' : data?.settleAmount }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-5"><label class="font-weight-bold">Remarks:</label></div>
+                    <div class="col-xs-6 col-sm-6 col-md-4">{{data?.remarks == '' || data?.remarks == null ? 'N/A' : data?.remarks }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br>
+		<table mat-table #table [dataSource]="dataSource"  matSort>
+
+			<ng-container matColumnDef="id">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Id</th>
+				<td mat-cell *matCellDef="let element"> {{element.id}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="createdTs">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Order Date</th>
+				<td mat-cell *matCellDef="let element"> {{element.createdTs.slice(0,10)}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="orderId">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th >
+				<td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="orderReference">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Order Reference</th >
+				<td mat-cell *matCellDef="let element"> {{element.orderReference}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="paymentMethod">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Method</th >
+				<td mat-cell *matCellDef="let element"> {{element.paymentMethod}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="goalAmount">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Goal Amount</th >
+				<td mat-cell *matCellDef="let element"> {{element.goalAmount}} {{element.currency}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="orderStatus">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Order Status</th >
+				<td mat-cell *matCellDef="let element"> {{element.orderStatus}} </td>
+			</ng-container>
+			<ng-container matColumnDef="transactionStatus">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Status</th >
+				<td mat-cell *matCellDef="let element"> {{element.transactionStatus}} </td>
+			</ng-container>
+
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		</table>
+		<div class="mat-table__message" *ngIf="noData">No records found</div>
+    </kt-portlet-body>
+</kt-portlet>

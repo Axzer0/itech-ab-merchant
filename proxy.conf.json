@@ -1,0 +1,10 @@
+{
+	"/api": {
+		"target": "dev.merchant.emali.africa",
+		"secure": true,
+		"changeOrigin": true,
+		"pathRewrite": {
+			"^/api": ""
+		}
+	}
+}

@@ -1,0 +1,100 @@
+<div class="kyc-info-details">
+    <form [formGroup]="loanForm" style="margin: 6px 50px 23px;">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="col-sm-12 col-md-12" style="margin-top: 15px;">
+                    <h6 style="margin: 0 71px;">Loan Request Form</h6>
+                </div>
+                <br>
+                <hr style="border: 1px solid #d9c7c7; margin: 0 80px;">
+                <!-- <div class="user-general-info" style="padding: 60px 0 0 43px"> -->
+                <div class="user-general-info" style="padding: 30px 0 0 30px">
+                    <div class="col-sm-12-col-md-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-label>Loan Amount</mat-label>
+                                <input matInput placeholder="Loan Amount" formControlName="amount" required>
+                                <mat-error *ngIf="isControlHasError('amount','required')">
+                                    <strong>Enter loan amount</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Loan Duration</mat-label>
+                                <input matInput type="text" placeholder="Time Period" formControlName="timePeriod"
+                                    required>
+                                <mat-error *ngIf="isControlHasError('timePeriod','required')">
+                                    <strong>Enter loan time period</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-12-col-md-6">
+                        <div class="example-container">
+                            <mat-form-field>
+                                <mat-label>Loan Type</mat-label>
+                                <mat-select placeholder="Select Loan Type" matInput required formControlName="loanType">
+                                    <mat-option matInput *ngFor="let loanType of loanTypes" [value]="loanType.value">
+                                        {{loanType.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="isControlHasError('loanType','required')">
+                                    <strong>Select loan type</strong>
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Remarks</mat-label>
+                                <input matInput type="text" placeholder="Remarks" formControlName="remarks" required>
+                                <mat-error *ngIf="isControlHasError('remarks','required')">
+                                    <strong>Enter remarks</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-12-col-md-6">
+                        <!-- <mat-card>
+                            <mat-card-content>
+                                <ul>
+                                    <li *ngFor="let file of files">
+                                        <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+                                        <span id="file-label">
+
+                                        </span>
+                                    </li>
+                                </ul>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <button mat-button color="warn" (click)="onClick()">
+                                    <mat-icon>file_upload</mat-icon>
+                                    Upload
+                                </button>
+                            </mat-card-actions>
+                        </mat-card> -->
+                        <button mat-button color="warn" (click)="fileInput.click()" style="margin: 8px 30px;">
+                            <mat-icon>file_upload</mat-icon>
+                            Upload Document
+                        </button>
+                        <span>{{fileName}}</span>
+                        <!-- <input hidden type="file" #uploader accept="image/*" placeholder="Select Profile Image" formControlName="profilePhoto"
+              required (change)="fileUploadPhoto($event)"> -->
+                        <input type="file" #fileInput id="fileUpload" formControlName="document" accept="image/jpeg" style="display:none;"
+                        required (change)="onClick($event)" Upload File />
+                        <p *ngIf="!fileName" style="color: #fd397a; margin-left: 52px;">
+                            Please uplaod document
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="action-button" style="margin: 24px 63px 0px; float: right;">
+                    <button class="final-btn" id="final-btn-skip" (click)="goBack()" mat-stroked-button
+                        color="primary">Cancel</button>
+                    <button class="final-btn" id="final-btn-save" (click)="requestLoan()" mat-flat-button
+                        color="primary">Request Loan</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

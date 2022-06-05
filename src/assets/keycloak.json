@@ -1,0 +1,11 @@
+
+{
+	"realm": "payment-gateway-dev",
+	"auth-server-url": "https://login.emali.africa/auth/",
+	"ssl-required": "none",
+	"resource": "web",
+	"credentials": {
+		"secret": "9302c7b8-209d-485f-b6ce-f6fc5d921520"
+	},
+	"confidential-port": 0
+}

@@ -1,0 +1,388 @@
+<kt-alert *ngIf="alert" type="primary" [showCloseButton]="true" [duration]="10000" (close)="onAlertClose($event)">
+	{{message}}
+</kt-alert>
+
+<kt-portlet>
+	<kt-portlet-header *ngIf="previewData !== true" [title]="'Add Merchant Page Setup '"
+					   [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<a (click)="back()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+			   matTooltip="Back to the users list">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+<!--			<a class="btn btn-secondary kt-margin-r-10" (click)="reset()" mat-raised-button-->
+<!--			   matTooltip="Reset changes">-->
+<!--				<i class="la la-cog"></i>-->
+<!--				<span class="kt-hidden-mobile">Reset</span>-->
+<!--			</a>-->
+
+			<button (click)="onSumbit()" [disabled]="loading"
+					[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}"
+					id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary">Submit
+			</button>
+
+
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-header *ngIf="previewData == true" [title]="'Update Merchant Page Setup '"
+					   [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<a (click)="back()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+			   matTooltip="Back to the users list">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+			<button (click)="update()" [disabled]="loading"
+					class="btn btn-primary btn-elevate kt-login__btn-primary">Update
+			</button>
+		</ng-container>
+	</kt-portlet-header>
+
+
+
+<!--	to-add + edit-->
+<!--	<kt-portlet-body>-->
+<!--		<mat-tab-group [selectedIndex]="tabIndex">-->
+<!--			<mat-tab label="Company Info" [disabled]="!previewData" >-->
+<!--				<div class="row">-->
+<!--					<div class="col-lg-4">-->
+<!--						<mat-form-field class="mat-form-field-fluid">-->
+<!--							<input matInput [(ngModel)]="pageSetupModel.companyName" name="companyName"-->
+<!--								   placeholder="Company Name" autocomplete="off" required/>-->
+<!--							<mat-error>Company Name is-->
+<!--								<strong>required</strong>-->
+<!--							</mat-error>-->
+<!--							&lt;!&ndash;							<mat-hint align="start">Please enter&ndash;&gt;-->
+<!--							&lt;!&ndash;								<strong>Company Name</strong>&ndash;&gt;-->
+<!--							&lt;!&ndash;							</mat-hint>&ndash;&gt;-->
+<!--						</mat-form-field>-->
+<!--					</div>-->
+<!--					<div class="col-lg-7">-->
+<!--						<img [src]="companyLogoImg" height="150" width="150" alt="Company Logo" style="position: relative;-->
+<!--	                left: 64px;"><br>-->
+<!--						<button mat-button color="warn" (click)="cmpyLogo.click()" style="margin: 8px 30px;">-->
+<!--							<mat-icon>file_upload</mat-icon>-->
+<!--							Upload your Company Logo-->
+<!--						</button>-->
+<!--						<br>-->
+
+<!--						<input type="file" #cmpyLogo id="fileUpload" [(ngModel)]="companyLogoImg"-->
+<!--							   name="companyLogo" accept="image/jpeg"-->
+<!--							   style="display:none;" (change)="uploadCompanyLogo($event)" Upload Company Logo/>-->
+
+<!--					</div>-->
+<!--					<div style="position:absolute; right: 0;bottom: 0" *ngIf="previewData == true">-->
+<!--						<div class="col-lg-3 kt-margin-bottom-20-mobile">-->
+<!--							<button (click)="update()" [disabled]="loading"-->
+<!--									[ngClass]="{'kt-spinner kt-spinner&#45;&#45;right kt-spinner&#45;&#45;md kt-spinner&#45;&#45;light': loading}"-->
+<!--									class="btn btn-primary btn-elevate kt-login__btn-primary">Update-->
+<!--							</button>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<div style="position:absolute; right: 0;bottom: 0" *ngIf="previewData !== true">-->
+<!--						<div class="col-lg-3 kt-margin-bottom-20-mobile">-->
+<!--							<button (click)="onSumbit()" [disabled]="loading"-->
+<!--									[ngClass]="{'kt-spinner kt-spinner&#45;&#45;right kt-spinner&#45;&#45;md kt-spinner&#45;&#45;light': loading}"-->
+<!--									class="btn btn-primary btn-elevate kt-login__btn-primary">Submit-->
+<!--							</button>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</mat-tab>-->
+<!--			<mat-tab label="Preview Details" [disabled]="!previewData">-->
+<!--				<div class="row">-->
+<!--					<div class="form-group kt-form__group row col-lg-12 ">-->
+<!--						<div class="col-lg-4 kt-margin-bottom-20-mobile">-->
+<!--							<mat-checkbox class="example-margin" [(ngModel)]="pageDisplayControl.companyInformation" name="companyInformation">Company Information</mat-checkbox>-->
+<!--						</div>-->
+<!--						<div class="col-lg-4 kt-margin-bottom-20-mobile">-->
+<!--							<mat-checkbox class="example-margin" [(ngModel)]="pageDisplayControl.purchaseDetails" name="purchaseDetails">Purchase Details</mat-checkbox>-->
+<!--						</div>-->
+<!--						<div class="col-lg-4 kt-margin-bottom-20-mobile">-->
+<!--							<mat-checkbox class="example-margin" [(ngModel)]="pageDisplayControl.customerInformation" name="customerInformation">Customer Information</mat-checkbox>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--					<div class="col-12">( checkbox selection's will cause page changes )</div>-->
+<!--					<div style="position:absolute; right: 0;bottom: 0">-->
+<!--						<div class="col-lg-3 kt-margin-bottom-20-mobile">-->
+<!--							<button (click)="submitDisplayControl()" [disabled]="loadingDisplayControl"-->
+<!--									[ngClass]="{'kt-spinner kt-spinner&#45;&#45;right kt-spinner&#45;&#45;md kt-spinner&#45;&#45;light': loadingDisplayControl}"-->
+<!--									class="btn btn-primary btn-elevate kt-login__btn-primary">{{ previewData ? 'Update':'Submit'}}-->
+<!--							</button>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</mat-tab>-->
+<!--			<mat-tab label="Application Credential" *ngIf="previewData">-->
+<!--				<div class="row">-->
+<!--					<div class="col-lg-5">-->
+<!--						<mat-form-field class="mat-form-field-fluid">-->
+<!--							<input matInput [(ngModel)]="pageDisplayControl.merchantId" name="merchantId" placeholder="Merchant ID" />-->
+<!--							<mat-error>Merchant ID is-->
+<!--								<strong>required</strong>-->
+<!--							</mat-error>-->
+<!--							&lt;!&ndash;							<mat-hint align="start">Please enter&ndash;&gt;-->
+<!--							&lt;!&ndash;								<strong>Merchant ID</strong>&ndash;&gt;-->
+<!--							&lt;!&ndash;							</mat-hint>&ndash;&gt;-->
+<!--						</mat-form-field>-->
+<!--					</div>-->
+<!--					<div class="col-lg-5">-->
+<!--						<mat-form-field class="mat-form-field-fluid">-->
+<!--							<input matInput [(ngModel)]="pageDisplayControl.applicationId" name="applicationId" placeholder="Application ID" />-->
+<!--							<mat-error>Application ID is-->
+<!--								<strong>required</strong>-->
+<!--							</mat-error>-->
+<!--							&lt;!&ndash;							<mat-hint align="start">Please enter&ndash;&gt;-->
+<!--							&lt;!&ndash;								<strong>Application ID</strong>&ndash;&gt;-->
+<!--							&lt;!&ndash;							</mat-hint>&ndash;&gt;-->
+<!--						</mat-form-field>-->
+<!--					</div>-->
+<!--					<div style="position:absolute; right: 0;bottom: 0">-->
+<!--						<div class="col-lg-3 kt-margin-bottom-20-mobile">-->
+<!--							<button (click)="submitDisplayControl()" [disabled]="loadingDisplayControl"-->
+<!--									[ngClass]="{'kt-spinner kt-spinner&#45;&#45;right kt-spinner&#45;&#45;md kt-spinner&#45;&#45;light': loadingDisplayControl}"-->
+<!--									class="btn btn-primary btn-elevate kt-login__btn-primary">{{ previewData ? 'Update':'Submit'}}-->
+<!--							</button>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</mat-tab>-->
+<!--		</mat-tab-group>-->
+<!--	</kt-portlet-body>-->
+
+
+<!--	to-preview-->
+	<kt-portlet-body style="border-top: 1px solid silver">
+		<div class="col-5 ml-2">
+			<mat-form-field class="mat-form-field-fluid">
+				<input matInput [(ngModel)]="pageSetupModel.companyName" name="companyName" placeholder="Enter Company Name" />
+			</mat-form-field>
+			<div>{{previewData? '(Click the company logo to update image*)':'(Click the camera icon below to add image*)'}}</div>
+		</div>
+		<hr>
+		<div style="background-color: white; border-radius: 8px;">
+			<div style="border-style: solid; border-radius: 21px; border-color: #cbcbcb80; padding: 26px">
+				<div class="row">
+					<div class="col-6 row" *ngIf="pageDisplayControl.companyInformation">
+						<div class="col-3">
+							<img width="70px" [src]="companyLogoImg" alt="Store Logo" (click)="cmpyLogo.click()">
+							<div class="logo_img" (click)="cmpyLogo.click()"><mat-icon style="color: white">edit</mat-icon></div>
+							<input type="file" #cmpyLogo id="fileUpload" [(ngModel)]="companyLogoImg"
+								   name="companyLogo" accept="image/jpeg"
+								   style="display:none;" (change)="uploadCompanyLogo($event)" Upload Company Logo/>
+						</div>
+						<div class="col-9">
+							<h5 style="text-align: center; margin-top: 20px;">{{pageSetupModel.companyName  == '' || pageSetupModel.companyName  == null? dummyData.companyName:pageSetupModel.companyName}}</h5>
+
+						</div>
+					</div>
+					<div [ngClass]="pageDisplayControl.companyInformation ? 'col-6':'col-12'">
+						<h4 style="text-align: center; margin-top: 20px;">Pay with Card</h4>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<ng-container *ngTemplateOutlet="info;context:{$implicit: 'col-6'}" ></ng-container>
+					<ng-container *ngTemplateOutlet="pay;context:{$implicit: 'col-6'}"></ng-container>
+				</div>
+			</div>
+
+		</div>
+	</kt-portlet-body>
+
+
+	<ng-template #info let-val>
+		<div [class]="val" style="border-right: solid silver 1px;">
+			<div>
+				<div ><p>Payment to {{this.pageSetupModel.companyName? this.pageSetupModel.companyName: 'N/A'}}</p></div>
+				<div >
+					<p >Order Reference: {{dummyData.orderRef}}</p>
+				</div>
+			</div>
+			<br>
+			<table id="product" *ngIf="pageDisplayControl.purchaseDetails">
+				<thead>
+				<tr>
+					<th style="width: 40%">Product</th>
+					<th style="width: 20%">Rate</th>
+					<th style="width: 20%">Quantity</th>
+					<th style="width: 20%">Amount</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr *ngFor="let data of items">
+					<td>{{data?.name | titlecase}}</td>
+					<td>{{data?.rate}}</td>
+					<td>{{data?.quantity}}</td>
+					<td>{{data?.total}}</td>
+				</tr>
+				</tbody>
+			</table>
+			<br>
+
+			<div class="row ">
+				<div class="col-3"><h6>Subtotal</h6></div>
+				<div class="col-9 text-right">{{this.dummyData.subTotal}} MZN</div>
+			</div>
+			<hr>
+			<mat-card>
+				<div class="row mb-1">
+					<div class="col-6"><h6>Discount & Coupons</h6></div>
+					<div class="col-6 text-right">
+						<h6>{{dummyData.discount}} MZN</h6>
+					</div>
+				</div>
+
+				<div class="row mb-1">
+					<div class="col-6"><h6>Shipping</h6></div>
+					<div class="col-6 text-right">
+						<h6>{{dummyData.shipping}} MZN</h6>
+					</div>
+				</div>
+
+				<div class="row mb-1">
+					<div class="col-6"><h6>Sales Tax(17%)</h6></div>
+					<div class="col-6 text-right">
+						<h6>{{dummyData.saleTax}} MZN</h6>
+					</div>
+				</div>
+
+				<div class="row mb-1">
+					<div class="col-6"><h6>Service Charge</h6></div>
+					<div class="col-6 text-right">
+						<h6>{{dummyData.serviceCharge}} MZN</h6>
+					</div>
+				</div>
+
+				<div class="row mb-1">
+					<div class="col-6"><h6>Processing Fee</h6></div>
+					<div class="col-6 text-right">
+						<h6>{{dummyData.processFee}} MZN</h6>
+					</div>
+				</div>
+			</mat-card>
+			<hr>
+			<div class="row mb-1">
+				<div class="col-6"><h6>Total due</h6></div>
+				<div class="col-6 text-right">
+					<h6>{{dummyData.total}} MZN</h6>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+	<ng-template #pay let-val>
+		<div [class]="val">
+			<div *ngIf="pageDisplayControl.customerInformation">
+				<h6 style="color: #5867dd; cursor: pointer" *ngIf="!visiblePayerInfo" (click)="showPayerInfo()">
+					<u><i
+						class="fas fa-plus"></i> Add Payer Information</u></h6>
+				<h6 style="color: #5867dd; cursor: pointer" *ngIf="visiblePayerInfo" (click)="minimizePayerInfo()">
+					<u><i
+						class="far fa-times-circle"></i> Minimize Payer Information</u></h6>
+				<br>
+				<div *ngIf="visiblePayerInfo">
+					<div class="row">
+						<div class="col-12"><h6>Full Name</h6></div>
+						<div class="col-12"><input type="text" id="full-name"
+												   class="form-control" title="Full name"
+												   aria-label="Enter Full Name" name="fullName"></div>
+					</div>
+					<br>
+
+					<div class="row">
+						<div class="col-6"><h6>Email</h6></div>
+						<div class="col-6"><h6>Phone</h6></div>
+					</div>
+
+					<div class="row">
+						<div class="col-6"><input type="text" id="email" name="email"
+												  class="form-control" title="email"
+												  aria-label="enter an email" value="" tabindex="6"></div>
+						<div class="col-6"><input type="text" id="phone"  name="phone"
+												  class="form-control" title="phone"
+												  aria-label="enter phone" value="" tabindex="7"></div>
+					</div>
+					<br>
+
+					<div class="row">
+						<div class="col-12"><h6>Shipping Address</h6></div>
+						<div class="col-6"><input style="margin-bottom: 13px;" type="text" id="address1"
+												  name="shippingAddress1"
+												  class="form-control" title="address1"
+												  aria-label="enter address" value="" tabindex="8"></div>
+						<div class="col-6"><input style="margin-bottom: 13px;" type="text" id="address2"
+												  name="shippingAddress2"
+												  class="form-control" title="address2"
+												  aria-label="enter address" value="" tabindex="9"></div>
+
+					</div>
+					<br>
+				</div>
+			</div>
+			<div>
+				<h6 style=" height: 29px; padding-left: 15px;
+    padding-top: 5px;  background-color: #646c9a;
+    color: white;">Card Information</h6>
+				<br>
+				<div class="row">
+					<div class="col-6"><h6>Cardholder Name</h6></div>
+					<div class="col-6"><h6>Card Number</h6></div>
+					<div class="col-6"><input type="text" id="cardholder-name" class="form-control"
+											  title="cardholder name"
+											  aria-label="enter name on card" value="" tabindex="5" readonly>
+					</div>
+					<div class="col-6">
+						<input type="text" id="card-number" class="form-control" title="card number"
+							   aria-label="enter your card number" value="" tabindex="1" readonly>
+						<span class="errordisplay" style="color: red" id="cardError"></span>
+					</div>
+				</div>
+				<br>
+
+				<div class="row">
+					<div class="col-4"><h6>MM</h6></div>
+					<div class="col-4"><h6>YY</h6></div>
+					<div class="col-4"><h6>CVC</h6></div>
+				</div>
+
+				<div class="row">
+					<div class="col-4">
+						<input type="text" id="expiry-month" class="form-control" title="expiry month"
+							   aria-label="two digit expiry month" value="" tabindex="2" readonly>
+						<span class="errordisplay" style="color: red" id="expiryMonthError"></span>
+					</div>
+
+					<div class="col-4">
+						<input type="text" id="expiry-year" class="form-control" title="expiry year"
+							   aria-label="two digit expiry year" value="" tabindex="3" readonly>
+						<span class="errordisplay" style="color: red" id="expiryYearError"></span>
+					</div>
+
+					<div class="col-4">
+						<input type="text" id="security-code" class="form-control" title="security code"
+							   aria-label="three digit CCV security code" value="" tabindex="4" readonly>
+						<span class="errordisplay" style="color: red" id="securityCodeError"></span>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-4"></div>
+					<div class="col-4">
+						<button style="margin-left: -13px; margin-top: 10px;width:135px" type="button"
+								class="btn btn-primary" id="payButton"
+								>Pay Now
+						</button>
+					</div>
+				</div>
+				<div style="width:100%; text-align:center;margin-top: 15px;">
+					<div style="cursor:pointer" ><u>Cancel</u></div>
+				</div>
+
+			</div>
+			<br>
+
+		</div>
+	</ng-template>
+</kt-portlet>

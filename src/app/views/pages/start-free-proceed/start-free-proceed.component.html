@@ -1,0 +1,32 @@
+<div style="height: 100vh;">
+    <mat-toolbar style="background: #c9cacf!important;">
+      <mat-toolbar-row>
+        <span>
+            <a href="javascript:;" routerLink="/home">
+                <img style="max-height: 100%; max-width: 75%;" [src]="getLogo()"
+                alt="agency-banking" >
+            </a>
+        </span>
+        <span class="example-spacer"></span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-card style="margin: 0 auto; height: 100vh;" class="example-card">
+        <mat-card-content style="padding: 0 17px;">
+            <div class="row" style="position: absolute;left: 42%; top: 24%;">
+                <div class="col-sm-6 col-md-6">
+                    <h3 style="text-align: justify;">OPEN A NEW SMARTPAY ACCOUNT NOW!</h3>
+
+                    <p style="text-align: justify;">Smartpay will help you to manage your bank account, save your money and valuable time.</p>
+
+                    <button href="javascript:;" routerLink="/auth/register" style="height: 44px!important; border-radius: 4px;"
+                        mat-raised-button color="accent" class="btn btn-block btn-danger kt-btn">
+                        Continue
+                    </button>
+                </div>
+                <div class="col-sm-6 col-md-6"></div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+            
+  </div>

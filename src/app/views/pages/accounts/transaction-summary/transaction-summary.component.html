@@ -1,0 +1,141 @@
+<kt-portlet>
+	<!-- <kt-portlet-header [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+		</ng-container>
+	</kt-portlet-header> -->
+	<kt-portlet-body>
+		<div class="kt-form__filtration">
+			<div class="row align-items-center">
+				<div class="col-md-2 kt-margin-bottom-10-mobile">
+                    <form [formGroup]="transactionForm">
+                        <div class="row">
+                            
+                                <div class="example-container">
+                                    <div class="col-sm-12 col-md-3">
+                                        <mat-form-field>
+                                            <mat-label>Start Date</mat-label>
+                                            <input matTooltip="Click icon to pick" readonly matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" formControlName="fromDate" required>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                            <mat-error *ngIf="isControlHasError('fromDate','required')">
+                                                <strong>Select start date</strong>
+                                            </mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <mat-form-field>
+                                            <mat-label>End Date</mat-label>
+                                            <input matTooltip="Click icon to pick" readonly matInput [min]="minEndDate" [max]="maxEndDate" [matDatepicker]="picker1" formControlName="toDate" required>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                            <mat-error *ngIf="isControlHasError('toDate','required')">
+                                                <strong>Select  end date</strong>
+                                            </mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <button class="final-btn" id="final-btn-save" (click)="searchStatement()" mat-flat-button color="primary">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+
+					<!-- <mat-form-field class="mat-form-field-fluid"> -->
+						<!-- <input
+							matInput
+							ngxDaterangepickerMd
+							showCancel="true"
+							placeholder="Choose date"
+							ngModel
+
+							[showDropdowns]="true"
+							[lockStartDate]="false"
+							[customRangeDirection]="false"
+							(ngModelChange)="ngModelChange($event)"
+							(change)="change($event)"
+						/> -->
+
+
+					<!-- </mat-form-field> -->
+				</div>
+				<!-- <div class="col-md-2 kt-margin-bottom-10-mobile">
+					<div class="kt-form__control">
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select (selectionChange)="changeValue($event)" placeholder="Select Client">
+								<mat-option *ngFor="let data of clientDropdownList"
+											value="{{data.id}}">{{data.name}}</mat-option>
+							</mat-select>
+							<mat-hint align="start">
+								<strong>Filter</strong> by Client
+							</mat-hint>
+						</mat-form-field>
+					</div>
+				</div> -->
+
+				<!-- <div class="col-md-2 kt-margin-bottom-10-mobile">
+					<button mat-raised-button color="primary" (click)="searchAgent()">Search</button>
+				</div> -->
+
+				<!-- <div class="col-md-4 kt-margin-bottom-10-mobile"></div>
+				<div class="col-md-2 kt-margin-bottom-10-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<input matInput (keyup)="doFilter($event.target.value)" #searchInput placeholder="Search">
+						<mat-hint align="start">
+							<strong>Search</strong> in all fields
+						</mat-hint>
+					</mat-form-field>
+				</div> -->
+
+			</div>
+		</div>
+		<br>
+		<mat-table #table [dataSource]="dataSource" matSort>
+			<!-- Position Column -->
+			<ng-container matColumnDef="transactionId">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>Transaction ID</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.transactionId }} </mat-cell>
+			</ng-container>
+			<!-- Name Column -->
+			<ng-container matColumnDef="customer">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> Customer Name</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.customer}} </mat-cell>
+			</ng-container>
+			<!-- Weight Column -->
+			<ng-container matColumnDef="accountNo">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>Account No</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.accountNo}} </mat-cell>
+			</ng-container>
+			<!-- Symbol Column -->
+			<ng-container matColumnDef="cardNo">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>Card NO</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.cardNo}} </mat-cell>
+			</ng-container>
+			<ng-container matColumnDef="agentFullName">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>Agent</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.agentFullName}} </mat-cell>
+			</ng-container>
+			<ng-container matColumnDef="amount">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>Amount</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+			</ng-container>
+			<ng-container matColumnDef="transactionType">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Type</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.transactionType}} </mat-cell>
+			</ng-container>
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
+		<!-- Message for empty data  -->
+		<div class="mat-table__message" *ngIf="noData">No records found</div><!-- Message for empty data  -->
+		<div class="mat-table__message" *ngIf="waiting">Please wait....</div>
+		<mat-paginator #paginator
+					   [pageSize]="10"
+					   [pageSizeOptions]="[5, 10, 20]"
+
+					   [showFirstLastButtons]="true">
+		</mat-paginator>
+
+	</kt-portlet-body>
+</kt-portlet>
+
+

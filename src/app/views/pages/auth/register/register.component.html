@@ -1,0 +1,161 @@
+<!-- margin-top: 15px; -->
+<!-- max-width: 480px; -->
+<mat-card class="example-card"
+style="max-width: 516px; margin: 0 auto; border-radius: 10px;
+		-webkit-box-shadow: 0px 0px 52px 14px rgba(205,204,227,1);
+		-moz-box-shadow: 0px 0px 52px 14px rgba(205,204,227,1);
+		box-shadow: 0px 0px 52px 14px rgba(205,204,227,1);"
+>
+	<!-- <mat-card-header>
+	  <div mat-card-avatar class="example-header-image">
+		<img mat-card-image src="../../../../../assets/media/logos/logo-light.png" alt="logo">
+	  </div>
+	  <mat-card-title>Shiba Inu</mat-card-title>
+	  <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+	</mat-card-header> -->
+	<!-- <img mat-card-image src="../../../../../assets/media/logos/logo-light.png" alt="logo"> -->
+	<mat-card-content style="padding: 0 17px 0 17px">
+	  <!--begin::Body-->
+		<div class="kt-login__body" style="display: unset!important;">
+			<!--begin::Signin-->
+			<div class="kt-login__form">
+				<div class="kt-login__title" style="margin-bottom: -4rem!important;">
+					<div class="logo" style="width: 216px; margin: 0 auto; padding-top: 7px; margin-top: 26px;">
+						<img style="height: 100%; width: 100%;" mat-card-image
+						[src]="getLogo()" alt="logo">
+					</div>
+					<!-- <h3>{{ 'AUTH.REGISTER.TITLE' | translate }}</h3> -->
+				</div>
+
+				<kt-auth-notice></kt-auth-notice>
+
+				<form class="kt-login__form kt-form" style="margin: 4rem auto 24px!important;" [formGroup]="registerForm" autocomplete="off">
+					<div class="form-group">
+						<mat-form-field class="signup-field">
+							<mat-label>Firstname</mat-label>
+							<input matInput type="text" placeholder="Firstname" formControlName="firstName"/>
+							<mat-error *ngIf="isControlHasError('firstName','required')">
+								<strong>First name is required</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('firstName','minlength')">
+								<strong>Minimum Field Length: 3</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('firstName','maxlength')">
+								<strong>Maximum Field Length: 100</strong>
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field class="signup-field">
+							<mat-label>Lastname</mat-label>
+							<input matInput type="text" placeholder="Lastname" formControlName="lastName"/>
+							<mat-error *ngIf="isControlHasError('lastName','required')">
+								<strong>Last name is required</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('lastName','minlength')">
+								<strong>Minimum Field Length: 3</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('lastName','maxlength')">
+								<strong>Maximum Field Length: 100</strong>
+							</mat-error>
+						</mat-form-field>
+
+					</div>
+					<div class="form-group">
+						<mat-form-field class="signup-field">
+							<mat-label>E-mail</mat-label>
+							<input matInput type="email" placeholder="E-mail" formControlName="email" autocomplete="off"/>
+							<mat-error *ngIf="isControlHasError('email','required')">
+								<strong>E-mail is required</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('email','email')">
+								<strong>Invalid email</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('email','minlength')">
+								<strong>Minimum Field Length: 3</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('email','maxlength')">
+								<strong>Maximum Field Length: 320</strong>
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field class="signup-field">
+							<mat-label>Mobile Number</mat-label>
+							<!-- <span matPrefix>{{countryCode}} &nbsp;</span> -->
+							<input matInput type="text" placeholder="Mobile No." formControlName="mobileNumber"/>
+							<mat-error *ngIf="isControlHasError('mobileNumber','required')">
+								<strong>Mobile number is required</strong>
+							</mat-error>
+							<!-- <mat-error *ngIf="isControlHasError('mobilNumber','minlength')">
+								<strong>{{ 'AUTH.VALIDATION.MIN_LENGTH_FIELD' | translate }} 3</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('mobilNumber','maxlength')">
+								<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 100</strong>
+							</mat-error> -->
+						</mat-form-field>
+
+					</div>
+
+					<div class="form-group">
+						<mat-form-field class="signup-field">
+							<mat-label>Username</mat-label>
+							<input matInput type="text" placeholder="Username" formControlName="username"/>
+							<mat-error *ngIf="isControlHasError('username','required')">
+								<strong>Username is required</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('username','minlength')">
+								<strong>Minimum Field Length: 3</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('username','maxlength')">
+								<strong>Maximum Field Length: 100</strong>
+							</mat-error>
+						</mat-form-field>
+
+						<mat-form-field class="signup-field">
+							<mat-label>Password</mat-label>
+							<input matInput type="password" placeholder="password" formControlName="password"/>
+							<mat-error *ngIf="isControlHasError('password','required')">
+								<strong>Password is required</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('password','minlength')">
+								<strong>Minimum Field Length: 3</strong>
+							</mat-error>
+							<mat-error *ngIf="isControlHasError('password','maxlength')">
+								<strong>Maximum Field Length: 100</strong>
+							</mat-error>
+						</mat-form-field>
+
+					</div>
+					<br />
+					<div class="form-group">
+						<mat-checkbox class="signup-field" (change)="getCheckBoxAgreement($event)" name="agree" formControlName="agree">
+							I agree the <a href="javascript:;">terms & conditions</a>
+						</mat-checkbox>
+					</div>
+
+					<!--begin::Action-->
+					<div class="kt-login__actions" style="margin: 1rem 0!important;">
+						<p style="margin: 13px 0 0 10px;">
+							Already have an account ?
+							<a style="color: #5d78ff;" href="javascript:;" routerLink="/auth/login" class="kt-link kt-login__link-forgot">
+								Login Here
+							</a>
+						</p>
+						<button [disabled]="!agreed || loading" style="height: 40px!important;" mat-raised-button (click)="submit()" color="primary" id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">
+							Register
+						  </button>
+						<!-- <button routerLink="/auth/login" [disabled]="loading" id="kt_login_signup_cancel" class="btn btn-secondary btn-elevate kt-login__btn-secondary">{{ 'AUTH.GENERAL.BACK_BUTTON' | translate }}</button> -->
+						<!-- <button (click)="submit()" id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">{{ 'AUTH.GENERAL.SUBMIT_BUTTON' | translate }}</button> -->
+					</div>
+					<!--end::Action-->
+				</form>
+			</div>
+		</div>
+	</mat-card-content>
+	<!-- <mat-card-actions>
+	  <button mat-button>LIKE</button>
+	  <button mat-raised-button (click)="submit()" color="primary" id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">
+		  {{ 'AUTH.GENERAL.SUBMIT_BUTTON' | translate }}
+		</button>
+	  <button mat-button>SHARE</button>
+	</mat-card-actions> -->
+  </mat-card>

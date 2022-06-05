@@ -1,0 +1,367 @@
+<html lang="">
+
+<head>
+    <!-- INCLUDE SESSION.JS JAVASCRIPT LIBRARY -->
+    <script src="https://ap-gateway.mastercard.com/form/version/60/merchant/TEST57082/session.js?debug=true"></script>
+    <!-- APPLY CLICK-JACKING STYLING AND HIDE CONTENTS OF THE PAGE -->
+    <style id="antiClickjack">
+        body {
+            display: none !important;
+        }
+    </style>
+    <title>Mastercard Payment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <section id="loading" style="position: absolute; width: 100%;height: 100vh;top: 0;background-color: black;opacity: 0.5">
+        <img  style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto" src="loading.gif" alt="">
+    </section>
+
+    <section class="container_1" >
+        <div class="row">
+            <div class="col-6" style=" display:flex;justify-content: space-between;align-items: center">
+                <div id="c_logo"></div>
+                <div id="c_name" style="text-align: center;font-size: 18px">Company name here</div>
+            </div>
+            <div class="col-6" style="text-align: center;font-size: 1.5rem;font-weight: 500;">
+                Pay with Card
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-6" style="border-right: 1px solid silver; padding: 0 10px 0 0; font-size: 14px">
+                <div >Payment to : <span id="p_to"></span></div>
+                <div >Order Ref: <span id="order_ref"></span></div>
+                <br>
+                <table id="product" >
+                    <thead>
+                    <tr>
+                        <th style="width: 40%">Product</th>
+                        <th style="width: 20%">Rate</th>
+                        <th style="width: 20%">Quantity</th>
+                        <th style="width: 20%">Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div>Cart Total:</div>
+                    <div id="cart_amt">Sub total amt</div>
+                </div>
+                <hr>
+                <div style="color: black">
+                    <div class="row">
+                        <div>Discount</div>
+                        <div id="discount"> </div>
+                    </div>
+                    <div class="row">
+                        <div>Shipping</div>
+                        <div id="shipping"></div>
+                    </div>
+                    <div class="row">
+                        <div>Tax</div>
+                        <div id="tax"></div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div>Sub Total</div>
+                    <div id="sub_ttl"></div>
+                </div>
+                <div class="row" style="color: black">
+                    <div>Processing Fee</div>
+                    <div id="pro_fee"></div>
+                </div>
+                <div class="row" style="color: black">
+                    <div>Service Charge</div>
+                    <div id="ser_chg"></div>
+                </div>
+                <hr>
+                <div class="row" >
+                    <div>Total Due</div>
+                    <div id="total"></div>
+                </div>
+            </div>
+            <div class="col-6" >
+                <div style="padding: 0 15px">
+                    <div class="payHead">Card Information</div>
+                    <div class="row">
+                        <div>
+                            Card Holder Name
+                            <div>
+                                <input type="text" id="cardholder-name" class="input-field curveInput" style="margin-right: 5px" title="cardholder name"
+                                       aria-label="enter name on card" value="" tabindex="5" readonly>
+                            </div>
+                        </div>
+                        <div>
+                            Card Number
+                            <div>
+                                <input type="text" id="card-number" class="input-field curveInput" title="card number"
+                                       aria-label="enter your card number" value="" tabindex="1" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            MM
+                            <div>
+                                <input type="text" id="expiry-month" style="width: 100px;" class="input-field curveInput" title="expiry month"
+                                       aria-label="two digit expiry month" value="" tabindex="2" readonly>
+                            </div>
+                        </div>
+                        <div>
+                            YY
+                            <div>
+                                <input type="text" id="expiry-year" style="width: 100px;" class="input-field curveInput" title="expiry year"
+                                       aria-label="two digit expiry year" value="" tabindex="3" readonly>
+                            </div>
+                        </div>
+
+                        <div>
+                            CVC
+                            <div>
+                                <input type="text" id="security-code" style="width: 100px;" class="input-field curveInput" title="security code"
+                                       aria-label="three digit CCV security code" value="" tabindex="4" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex;justify-content: center">
+                        <button class="payButton" onclick="pay('card');">Pay Now</button>
+                    </div>
+                    <div style="display: flex;justify-content: center">
+                        <button class="payButton"  style="background-color: white;color: black;cursor: pointer" onclick="cancel();"><u>Cancel</u></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="copyright" style="color: #74788d">copyright &copy;</div>
+	<script>
+	const urlParams = new URLSearchParams(window.location.search);
+	const session = urlParams.get('sessionId');
+	const sessionId = urlParams.get('sessionId');
+	const merchant = urlParams.get('merchantId');
+	const order = urlParams.get('orderId');
+	let cancelUrl = '';
+
+
+	// document.getElementById("demo").innerHTML = "This page using Session Id " + sessionId;
+
+
+
+    const data = { sessionId: session };
+    const url = `https://dev.merchant.emali.africa/innovative/api/v1/merchant/page/${merchant}/order/${order}`;
+    let txn = '';
+    let load = document.getElementById('loading')
+    // let xhr = new XMLHttpRequest();
+    // xhr.open("POST", url, true);
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify(data));
+    getDevices = async () => {
+        const settings = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        };
+        try {
+            const fetchResponse = await fetch(url, settings);
+            const val = await fetchResponse.json();
+            load.hidden = true;
+            let tableValue = '';
+
+            //mapping fetched Values
+            let companyDetail = val.data.companyInformation;
+            let paymentGateway = val.data.paymentGatewayTransaction;
+            let purchaseUnit = val.data.paymentGatewayTransaction.purchaseUnit;
+            let products = val.data.paymentGatewayTransaction.purchaseUnit.item;
+            cancelUrl = val.data.paymentGatewayTransaction.cancelUrl;
+
+            //mapping divs
+            txn = paymentGateway.id;
+            let c_name = document.getElementById('c_name');
+            let c_logo = document.getElementById('c_logo');
+            let p_to = document.getElementById('p_to');
+            let order_ref = document.getElementById('order_ref');
+            let tableContent = document.getElementById('tbody');
+            let discount = document.getElementById('discount');
+            let shipping = document.getElementById('shipping');
+            let tax = document.getElementById('tax');
+            let sub_ttl = document.getElementById('sub_ttl');
+            let pro_fee = document.getElementById('pro_fee');
+            let ser_chg = document.getElementById('ser_chg');
+            let total = document.getElementById('total');
+            let cart_amt = document.getElementById('cart_amt');
+
+            //mapping values
+            c_name.innerHTML = `${companyDetail.companyName}`;
+            c_logo.innerHTML = `<img src="data:Image/*;base64,${companyDetail.companyLogo}" alt="company logo" id="company_logo">`;
+            p_to.innerHTML = `${companyDetail.companyName}`;
+            order_ref.innerHTML = `${paymentGateway.orderReference}`;
+            discount.innerHTML = `${purchaseUnit.discountAmount}`;
+            shipping.innerHTML = `${purchaseUnit.shippingAmount}`;
+            tax.innerHTML = `${purchaseUnit.tax}`;
+            sub_ttl.innerHTML = `${paymentGateway.goalAmount}`;
+            pro_fee.innerHTML = `${paymentGateway.processingFee}`;
+            ser_chg.innerHTML = `${paymentGateway.serviceCharge}`;
+            total.innerHTML = `${paymentGateway.totalAmount}`;
+            cart_amt.innerHTML = `${paymentGateway.orderAmount}`;
+
+            for (let i = 0 ; i < products.length ; i++){
+                let ttl = Number(products[i].unitAmount) * Number(products[i].quantity)
+                tableValue = tableValue.concat(`<tr><td>${products[i].name}</td><td>${products[i].unitAmount}</td><td>${products[i].quantity}</td><td>${ttl}</td></tr>`)
+            }
+            tableContent.innerHTML = tableValue
+            return val;
+        } catch (e) {
+            return e;
+        }
+    };
+    getDevices();
+
+    function cancel(){
+        load.hidden = false;
+        window.open(cancelUrl, "_self");
+    }
+
+
+    callPay = async () => {
+        let path = `https://dev.merchant.emali.africa/innovative/api/v1/merchant/${merchant}/initiateAuthentication/order/${order}/transaction/${txn}`;
+        const settings = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                ,
+            },
+            body: JSON.stringify(data)
+        };
+        try {
+            const fetchResponse = await fetch(path, settings);
+            const val = await fetchResponse.json();
+            window.open(val.data.approveUrl, "_self");
+            load.hidden = true;
+            console.log(val)
+        } catch (e){
+            console.log(e)
+        }
+    }
+
+
+    </script>
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        } else {
+            top.location = self.location;
+        }
+
+       function generateSession(){
+        PaymentSession.configure({
+        session: sessionId,
+            fields: {
+                // Attach hosted fields to your payment page
+                card: {
+                    number: "#card-number",
+                    securityCode: "#security-code",
+                    expiryMonth: "#expiry-month",
+                    expiryYear: "#expiry-year",
+                    nameOnCard: "#cardholder-name"
+                },
+            },
+            frameEmbeddingMitigation: ["javascript"],
+            callbacks: {
+                initialized: function (response) {
+                    // HANDLE INITIALIZATION RESPONSE
+                    if (response.status === "ok") {
+                        console.log("Ready for payment")
+                    }
+                },
+                formSessionUpdate: function (response) {
+                    // HANDLE RESPONSE FOR UPDATE SESSION
+                    if (response.status) {
+                        if ("ok" == response.status) {
+                            console.log("Session updated with data: " + response.session.id);
+                            console.log("Card Entered: " + response.sourceOfFunds.provided.card.number)
+                            console.log("Card Type: " + response.sourceOfFunds.provided.card.scheme)
+
+                            //check if the security code was provided by the user
+                            if (response.sourceOfFunds.provided.card.securityCode) {
+                                console.log("Security code was provided.");
+                            }
+
+                            //check if the user entered a MasterCard credit card
+                            if (response.sourceOfFunds.provided.card.scheme == 'MASTERCARD') {
+                                console.log("The user entered a MasterCard credit card.")
+                            }
+                            callPay()
+                        } else if ("fields_in_error" == response.status) {
+                            // HANDLE FIELD ERROR RESPONSES
+                            console.log("Session update failed with field errors.");
+                            if (response.errors.cardNumber) {
+                                alert("Card number invalid or missing.");
+                                console.log("Card number invalid or missing.");
+                            }
+                            if (response.errors.expiryYear) {
+                                alert("Expiry year invalid or missing.");
+                                console.log("Expiry year invalid or missing.");
+                            }
+                            if (response.errors.expiryMonth) {
+                                alert("Expiry month invalid or missing.");
+                                console.log("Expiry month invalid or missing.");
+                            }
+                            if (response.errors.securityCode) {
+                                alert("Security code invalid.");
+                                console.log("Security code invalid.");
+                            }
+                            load.hidden = true
+                        } else if ("request_timeout" == response.status) {
+                            alert("Session update failed with request timeout: " + response.errors.message);
+                            console.log("Session update failed with request timeout: " + response.errors.message);
+                            load.hidden = true
+                        } else if ("system_error" == response.status) {
+                            alert("Session update failed with system error: " + response.errors.message)
+                            console.log("Session update failed with system error: " + response.errors.message);
+                            load.hidden = true
+                        }
+                    } else {
+                        alert("Session update failed: " + response)
+                        console.log("Session update failed: " + response);
+                        load.hidden = true}
+                }
+            },
+            interaction: {
+                displayControl: {
+                    formatCard: "EMBOSSED",
+                    invalidFieldCharacters: "REJECT"
+                }
+            }
+        });
+       }
+       if (sessionId){
+           generateSession();
+        } else{
+            console.log('no session')
+        }
+
+        function pay() {
+            document.getElementById('loading').hidden = false;
+            PaymentSession.updateSessionFromForm('card');
+        }
+
+    </script>
+</body>
+
+</html>

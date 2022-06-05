@@ -1,0 +1,73 @@
+<mat-card class="example-card" style="max-width: 435px; margin: 0 auto; margin-top: 15px; border-radius: 10px;
+		-webkit-box-shadow: 0px 0px 52px 14px rgba(205,204,227,1);
+		-moz-box-shadow: 0px 0px 52px 14px rgba(205,204,227,1);
+		box-shadow: 0px 0px 52px 14px rgba(205,204,227,1);">
+	<mat-card-content style="padding: 0 17px;">
+		<!--begin::Body-->
+		<div class="kt-login__body" style="display: unset!important;">
+			<!--begin::Signin-->
+			<div class="kt-login__form">
+				<div class="kt-login__title" style="margin-bottom: -3rem!important;">
+					<div class="logo" style="width: 216px; margin: 0 auto; padding-top: 7px; margin-top: 26px;">
+						<img style="height: 100%; width: 100%;" mat-card-image [src]="getLogo()" alt="logo">
+					</div>
+					<p style="text-align: justify;">Your login process is successful. Please enter OTP password that you receive on your device for verificaton.</p>
+				</div>
+				<kt-auth-notice></kt-auth-notice>
+				<form class="kt-login__form kt-form" style="margin: 4rem auto 24px!important;"
+					[formGroup]="OTPValidationForm" autocomplete="off">
+					<div class="form-group">
+						<!-- <mat-form-field *ngIf="!gettingOTPResponse">
+							<mat-label>Select your country</mat-label>
+							<mat-select placeholder="Select your country" (ngModelChange)="onChangeCountry($event)" matInput required formControlName="country" required>
+							  <mat-option matInput *ngFor="let country of countries?.data" [value]="country">
+								{{country?.countryName}}
+							  </mat-option>
+							</mat-select> -->
+							<!-- <mat-error *ngIf="isControlHasError('country','required')">
+							  <strong>Select your country</strong>
+							</mat-error> -->
+						<!-- </mat-form-field> -->
+
+						<!-- <mat-form-field *ngIf="!gettingOTPResponse"> -->
+							<!-- <mat-label>Enter your phone number to receive the OTP</mat-label> -->
+							<!-- <span matPrefix>{{countryCode}} &nbsp;</span>
+							<input formControlName="phoneNumber" matInput type="text" placeholder="Phone Number to get OTP"autocomplete="off" /> -->
+							<!-- <mat-error *ngIf="isControlHasError('phoneNumber','required')">
+								<strong>Enter mobile number</strong>
+							</mat-error> -->
+                        <!-- </mat-form-field> -->
+                        <mat-form-field>
+							<mat-label>Enter 6-digit OTP code that you received on your device</mat-label>
+							<input matInput type="text" formControlName="otpCode" placeholder="6-digit OTP code" autocomplete="off" />
+							<mat-error *ngIf="isControlHasError('otpCode','required')">
+								<strong>OTP code is required.</strong>
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<br>
+					<mat-label>
+						<a  style="color: #5d78ff;" href="javascript:;"
+							class="kt-link kt-login__link-forgot">
+							Didn't get OTP. Resend Again?
+						</a>
+					</mat-label>
+					<!--begin::Action-->
+                    <div class="kt-login__actions" style="margin: 1rem 0!important;">
+                        <!-- <button style="height: 40px!important;" *ngIf="sendingOTP !== true" (click)="sendOTP()" mat-raised-button color="primary"
+							id="kt__otp_submit" class="btn btn-primary btn-elevate kt-login__btn-primary"
+							[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">
+							Send OTP
+						</button> -->
+						<button style="height: 40px!important;" (click)="validateOTP()" mat-raised-button color="primary"
+							id="kt__otp_submit" class="btn btn-primary btn-elevate kt-login__btn-primary"
+							[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">
+							Validate OTP
+						</button>
+					</div>
+					<!--end::Action-->
+				</form>
+			</div>
+		</div>
+	</mat-card-content>
+</mat-card>

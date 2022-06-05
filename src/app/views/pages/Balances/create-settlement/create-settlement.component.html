@@ -1,0 +1,55 @@
+
+<kt-portlet>
+	<kt-portlet-header [title]="'Create Settlement'" [class]="'kt-portlet__head--lg'" >
+		<ng-container ktPortletTools>
+			<a (click)="back()" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Back to the users list">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
+			<a href="javascript:;" class="btn btn-secondary kt-margin-r-10" (click)="reset()"  mat-raised-button matTooltip="Reset changes">
+				<i class="la la-cog"></i>
+				<span class="kt-hidden-mobile">Reset</span>
+			</a>
+
+			<button (click)="onSumbit()" [disabled]="loading" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}"  class="btn btn-primary btn-elevate kt-login__btn-primary">Submit </button>
+
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-body>
+		<form #validationForm="ngForm" class="kt-form kt-form--group-seperator-dashed">
+			<kt-alert *ngIf="validationError" type="warn" [showCloseButton]="true" [duration]="2000" (close)="onAlertClose($event)">
+				Please fill required fields
+			</kt-alert>
+			<div class="kt-form__section kt-form__section--first">
+
+
+				<div class="form-group kt-form__group row">
+					<div class="col-lg-4 kt-margin-bottom-20-mobile">
+												<mat-form-field class="mat-form-field-fluid">
+													<input matInput required [(ngModel)]="settlementModel.amount" name="amount" placeholder="Amount" />
+													<mat-error>Amount is
+														<strong>required</strong>
+													</mat-error>
+													<mat-hint align="start">Please enter
+														<strong>Amount</strong>
+													</mat-hint>
+												</mat-form-field>
+
+					</div>
+
+					<div class="col-lg-4 kt-margin-bottom-20-mobile">
+						<mat-form-field class="example-full-width" appearance="fill">
+							<mat-label>Remarks</mat-label>
+							<input required matInput [(ngModel)]="settlementModel.remarks" name="remarks" #remarks maxlength="256" placeholder="Remarks">
+							<mat-hint align="start"><strong>Please enter Remarks</strong> </mat-hint>
+							<mat-hint align="end">{{remarks.value.length}} / 256</mat-hint>
+						</mat-form-field>
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+	</kt-portlet-body>
+</kt-portlet>

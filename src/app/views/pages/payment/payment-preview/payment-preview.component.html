@@ -1,0 +1,182 @@
+<kt-portlet>
+	<kt-portlet-header [title]="!data?.refundStatus || data?.refundStatus == 'NOT_REQUESTED' ? 'Payment Detail': 'Refund Detail'" [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<button style="margin-left: 8px" (click)="openDialog()" *ngIf="!data?.refundStatus || data?.refundStatus == 'NOT_REQUESTED' "
+					[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}"
+					mat-stroked-button color="warn" matTooltip="Cancel ">Refund
+			</button>
+			<button style="margin-left: 8px" (click)="cancel()"
+					[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}"
+					mat-stroked-button color="warn" matTooltip="Cancel ">Back
+			</button>
+		</ng-container>
+	</kt-portlet-header>
+	<kt-portlet-body>
+		<div class="row">
+			<div class="row col-12">
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Order Id:</label>
+					<label class="col-6">{{data?.orderId ? data?.orderId:'N/A'}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Merchant Id:</label>
+					<label class="col-6">{{data?.merchantId}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Transaction Id:</label>
+					<label class="col-6">{{data?.id ? data?.id : 'N/A'}}</label>
+				</div>
+			</div>
+			<div class="row col-12">
+
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Order Date:</label>
+					<label class="col-6">{{data?.createdTs | date}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Acc. Identifier:</label>
+					<label class="col-6">{{data?.accountIdentifier ? data?.accountIdentifier: 'N/A'}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Transaction Status:</label>
+					<label class="col-6">{{data?.transactionStatus ? data?.transactionStatus : 'N/A'}}</label>
+				</div>
+			</div>
+			<div class="row col-12">
+
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Order Reference:</label>
+					<label class="col-6">{{data?.orderReference ? data?.orderReference:'N/A'}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Payment Method:</label>
+					<label class="col-6">{{data?.paymentMethod ? data?.paymentMethod:'N/A'}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Order Status:</label>
+					<label class="col-6">{{data?.orderStatus ? data?.orderStatus : 'N/A'}}</label>
+				</div>
+			</div>
+			<div class="row col-12">
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Order Amount:</label>
+					<label class="col-6">{{data?.orderAmount}}  {{data?.currency}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Shipping Amount:</label>
+					<label class="col-6">{{data?.purchaseUnit?.shippingAmount}} {{data?.currency}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Settlement Status:</label>
+					<label class="col-6">{{data?.settlementStatus ? data?.settlementStatus : 'N/A'}}</label>
+				</div>
+			</div>
+			<div class="row col-12">
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold"></label>
+					<label class="col-6"></label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Discount:</label>
+					<label class="col-6">{{data?.purchaseUnit?.discountAmount}}  {{data?.currency}}</label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Refund Status:</label>
+					<label class="col-6">{{data?.refundStatus ? data?.refundStatus : 'N/A'}}</label>
+				</div>
+			</div>
+			<div class="row col-12">
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold"></label>
+					<label class="col-6"></label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold"></label>
+					<label class="col-6"></label>
+				</div>
+				<div class="col-4">
+					<label class="col-6 text-right" style="font-weight: bold">Transaction Hold:</label>
+					<label class="col-6">{{data?.transactionHold ? 'Yes' : 'No'}}</label>
+				</div>
+			</div>
+			<br><br>
+			<div class="row col-12">
+				<div class="col-8">
+					<mat-card *ngIf="remark">
+						<div class="font-weight-bold">Remarks:</div>
+						<hr>
+						<div>{{remark}}</div>
+					</mat-card>
+				</div>
+				<div class="col-4">
+					<mat-card>
+						<div style="font-weight: bold;font-size: 15px">
+							Amount Calculation:
+						</div>
+						<hr>
+						<div class="col-12">
+							<label class="col-6 " style="font-weight: bold">Goal Amount:</label>
+							<label class="col-6">{{data?.goalAmount}}  {{data?.currency}}</label>
+						</div>
+						<div class="col-12">
+							<label class="col-6 " style="font-weight: bold">Processing Fee:</label>
+							<label class="col-6">{{data?.processingFee}}  {{data?.currency}}</label>
+						</div>
+						<hr>
+						<div class="col-12">
+							<label class="col-6 " style="font-weight: bold">Total:</label>
+							<label class="col-6">{{data?.totalAmount}}  {{data?.currency}}</label>
+						</div>
+					</mat-card>
+				</div>
+			</div>
+
+		</div>
+
+
+		<br>
+
+		<h5>Items</h5>
+		<!--		table-->
+		<div class="example-container">
+			<table mat-table #table [dataSource]="dataSource" matSort>
+				<!-- Position Column -->
+				<ng-container matColumnDef="createdTs">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+					<td mat-cell *matCellDef="let element"> {{element.createdTs}} </td>
+				</ng-container>
+
+				<ng-container matColumnDef="name">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+					<td mat-cell *matCellDef="let element"> {{element.name}} </td>
+				</ng-container>
+
+				<ng-container matColumnDef="description">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+					<td mat-cell *matCellDef="let element"> {{element.description}} </td>
+				</ng-container>
+
+				<ng-container matColumnDef="quantity">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+					<td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+				</ng-container>
+
+				<ng-container matColumnDef="unitAmount">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Amount</th>
+					<td mat-cell *matCellDef="let element"> {{element.unitAmount}} </td>
+				</ng-container>
+
+
+				<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+				<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+			</table>
+		</div>
+		<!-- Message for empty data  -->
+		<!--        <div class="mat-table__message" *ngIf="noData">No records found</div>-->
+		<!-- Message for empty data  -->
+		<!--        <div class="mat-table__message" *ngIf="waiting">Please wait....</div>-->
+
+		<!--        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[10,20,30,40]" (page)="onPaginationChange($event)" length={ {totalData}} [showFirstLastButtons]="true">-->
+		<!--        </mat-paginator>-->
+	</kt-portlet-body>
+</kt-portlet>

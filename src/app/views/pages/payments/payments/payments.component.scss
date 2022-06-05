@@ -1,0 +1,199 @@
+// .mat-subheader {
+//     display: inline-flex;
+//     font-family: Roboto, "Helvetica Neue", sans-serif;
+//     font-size: 14px;
+//     opacity: 0.8;
+//     font-weight: 500;
+// }
+// mat-list-item.mat-list-item {
+//     height: 80px!important;
+// }
+
+// .sent-right-info {
+//     position: absolute;
+//     right: 16px;
+// }
+
+// #fast-pay-header {
+//     position: absolute;
+//     top: 7px;
+// }
+
+// .example-form-field {
+//     width: 245px;
+//     color: #1147d9;
+// }
+
+
+// #a:hover {
+//     background-color: #ebecf4;;
+// }
+
+// #a {
+//     width: 33.33%;
+//     display: inline-flex;
+//     margin-bottom: 16px;
+// }
+// .fast-pay-info {
+//     color: #2751c7;
+// }
+
+// @media only screen and (max-width: 768px) {
+//     .sent-right-info {
+//         position: absolute!important;
+//         left: 100px!important;
+//         top: 62px!important;
+//     }
+
+//     #a {
+//         display: block!important;
+//     }
+
+//     .example-form-field {
+//         width: 200px!important;
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+// back for the payments section
+
+/**
+*@ By Paribartan Kalathoki
+*
+
+/**
+*<!-- for the upcomming section -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div mat-subheader>Payments Approval</div>
+      <div mat-line style="margin: 0 15px; font-size: 14px; font-family: sans-serif;opacity: 0.8;">
+        Action required
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <mat-list>              
+        <mat-list-item style="background: #f2f0f0; border-radius: 5px;">
+          <img height="65" width="65" [src]="getDefaultUserImage()" class="img-fluid" alt="img">
+          <span style="margin-left: 18px;"> 
+            <div mat-line>{{lists[0].name}}</div>
+            <div mat-line> <span style="    color: rgb(248, 153, 10); font-size: 15px; font-family: sans-serif;">
+              Awaiting Approval</span> &nbsp; From Account Name
+            </div>
+            <div mat-line> {{lists[0].updated | date}}</div>
+          </span>
+          <p class="sent-right-info">{{lists[0].mnt}}</p>
+        </mat-list-item>
+      </mat-list>
+      <div style="color: #3b65f6; margin: 10px 15px; font-size: 14px; font-family: sans-serif;opacity: 0.8;" 
+        class="view-all-payments"><a href="javascript:;">View all 12 payments</a></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div mat-subheader>Scheduled</div>
+      <div mat-subheader class="pull-right"><a href="javascript:;">Schedule a payment</a></div>
+      <div mat-line style="margin: 0 15px; font-size: 14px; font-family: sans-serif;opacity: 0.8;">
+        This month
+      </div>
+      <mat-list>
+        <mat-list-item style="background: #f2f0f0; border-radius: 5px;">
+          <img height="65" width="65" [src]="getDefaultUserImage()" class="img-fluid" alt="img">
+          <span style="margin-left: 18px;"> 
+            <div mat-line>{{lists[0].name}}</div>
+            <div mat-line>{{lists[0].updated | date}} &nbsp; From Account Name</div>
+          </span>
+          <p class="sent-right-info">{{lists[0].mnt}}</p>
+        </mat-list-item>
+      </mat-list>
+      <div style="color: #3b65f6; margin: 10px 15px; font-size: 14px; font-family: sans-serif;opacity: 0.8;" 
+        class="view-all-payments"><a href="javascript:;">View all 3 payments</a></div>
+    </div>
+  </div>
+  <!-- end upcomming section part -->
+
+  <!-- for the sent section -->
+
+  <!-- <div class="row">
+          <div class="col-sm-6 col-md-6">
+              <p style="font-size: 14px;color: #747477">Payments Done <a style="color: #3b65f6;" href="javascript:;">All</a></p>
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <p style="color: #3030f2; font-size: 14px;" class="float-right"><a href="javascript:;">Make New Payment</a></p>
+          </div>
+        </div> -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div mat-subheader>Payments Done <a style="color: #3b65f6;" href="javascript:;"> &nbsp;All</a></div>
+              <div mat-subheader class="pull-right"><a href="javascript:;">Make New Payment</a></div>
+            <mat-list>
+              <!-- <div mat-subheader>Payments Done <a style="color: #3b65f6;" href="javascript:;"> &nbsp;All</a></div>
+              <div mat-subheader class="pull-right"><a href="javascript:;">Make New Payment</a></div> -->
+              <mat-list-item *ngFor="let list of lists">
+                <img height="65" width="65" [src]="getDefaultUserImage()" class="img-fluid" alt="img">
+                <span style="margin-left: 18px;"> 
+                  <div mat-line>{{list.name}}</div>
+                  <div mat-line> {{list.updated | date}} From Account Name </div>
+                </span>
+                <p class="sent-right-info">{{list.mnt}}</p>
+                <!-- <div mat-line>{{list.name}}</div> -->
+                <!-- <div mat-line> {{list.updated | date}} </div> -->
+                <mat-divider style="margin: 0 100px;"></mat-divider>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </div>
+
+  <!-- end sent section part -->
+
+  <!-- for the fast pay section -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div id="fast-pay-header" mat-subheader>Payments Instantly</div>
+      <div mat-subheader class="pull-right">
+        <mat-form-field class="example-form-field">
+          <mat-label style="color: #1f1df4;">Search Here</mat-label>
+          <input matInput type="text" placeholder="enter search value" [(ngModel)]="value" autocomplete="off">
+          <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon matTooltip="Clear input">close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <!-- <mat-grid-list cols="3" rowHeight="90px">
+        <mat-grid-tile *ngFor="let list of lists">
+          <img height="65" width="65" [src]="getDefaultUserImage()" class="img-fluid" alt="img">
+          <span style="margin-left: 18px;"> 
+            <div mat-line>Municipality Maputo</div>
+          </span>
+        </mat-grid-tile>
+      </mat-grid-list> -->
+      
+      <mat-list>
+        <mat-list-item id="a" *ngFor="let list of lists">
+          <img height="65" width="65" [src]="getDefaultUserImage()" class="img-fluid" alt="img">
+          <span style="margin-left: 18px;"> 
+            <div class="fast-pay-info" mat-line>Municipality Maputo</div>
+          </span>
+                 <!-- <mat-divider style="margin: 0 100px;"></mat-divider> -->   
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+  <!-- end fast pay section part -->
+*
+*/

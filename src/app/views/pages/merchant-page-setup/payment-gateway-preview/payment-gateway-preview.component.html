@@ -1,0 +1,165 @@
+<kt-portlet>
+	<kt-portlet-header [title]="'Preview'"
+					   [class]="'kt-portlet__head--lg'">		<ng-container ktPortletTools>
+		<div fxLayout fxLayoutAlign="center center">
+			<button (click)="back()" style=" float: right" mat-raised-button color="primary"
+					matTooltip="Back">
+				Back
+			</button>
+		</div>
+	</ng-container>
+
+	</kt-portlet-header>
+
+
+	<kt-portlet-body>
+		<div style="background-color: white; border-radius: 8px;">
+			<div style="border-style: solid; border-radius: 21px; border-color: #cbcbcb80; padding: 26px">
+				<div class="row">
+					<div class="col-6 row">
+						<div class="col-3">
+							<img width="70px" [src]="companyLogo" alt="Store Logo">
+						</div>
+						<div class="col-9">
+							<h5 style="text-align: center; margin-top: 20px;">{{previewData?.companyName ? previewData?.companyName: 'Name Here'}}</h5>
+						</div>
+					</div>
+					<div [ngClass]="'col-6'">
+						<h4 style="text-align: center; margin-top: 20px;">Pay with Card</h4>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<ng-container *ngTemplateOutlet="info;context:{$implicit: 'col-6'}" ></ng-container>
+					<ng-container *ngTemplateOutlet="pay;context:{$implicit: 'col-6'}"></ng-container>
+				</div>
+			</div>
+
+		</div>
+	</kt-portlet-body>
+</kt-portlet>
+<ng-template #info let-val>
+	<div [class]="val" style="border-right: solid silver 1px;">
+		<div>
+			<div ><p>Payment to {{previewData?.companyName}}</p></div>
+			<div >
+				<p >Order Reference: {{dummyData.orderRef}}</p>
+			</div>
+		</div>
+		<br>
+		<div class="row ">
+			<div class="col-3"><h6>Subtotal</h6></div>
+			<div class="col-9 text-right">{{dummyData.subTotal}} MZN</div>
+		</div>
+		<hr>
+		<mat-card>
+			<div class="row mb-1">
+				<div class="col-6"><h6>Discount & Coupons</h6></div>
+				<div class="col-6 text-right">
+					<h6>{{dummyData.discount}} MZN</h6>
+				</div>
+			</div>
+
+			<div class="row mb-1">
+				<div class="col-6"><h6>Shipping</h6></div>
+				<div class="col-6 text-right">
+					<h6>{{dummyData.shipping}} MZN</h6>
+				</div>
+			</div>
+
+			<div class="row mb-1">
+				<div class="col-6"><h6>Sales Tax(17%)</h6></div>
+				<div class="col-6 text-right">
+					<h6>{{dummyData.saleTax}} MZN</h6>
+				</div>
+			</div>
+
+			<div class="row mb-1">
+				<div class="col-6"><h6>Service Charge</h6></div>
+				<div class="col-6 text-right">
+					<h6>{{dummyData.serviceCharge}} MZN</h6>
+				</div>
+			</div>
+
+			<div class="row mb-1">
+				<div class="col-6"><h6>Processing Fee</h6></div>
+				<div class="col-6 text-right">
+					<h6>{{dummyData.processFee}} MZN</h6>
+				</div>
+			</div>
+		</mat-card>
+		<hr>
+		<div class="row mb-1">
+			<div class="col-6"><h6>Total due</h6></div>
+			<div class="col-6 text-right">
+				<h6>{{dummyData.total}} MZN</h6>
+			</div>
+		</div>
+	</div>
+</ng-template>
+<ng-template #pay let-val>
+	<div [class]="val">
+		<div>
+			<h6 style=" height: 29px; padding-left: 15px;
+    padding-top: 5px;  background-color: #646c9a;
+    color: white;">Card Information</h6>
+			<br>
+			<div class="row">
+				<div class="col-6"><h6>Cardholder Name</h6></div>
+				<div class="col-6"><h6>Card Number</h6></div>
+				<div class="col-6"><input type="text" id="cardholder-name" class="form-control"
+										  title="cardholder name"
+										  aria-label="enter name on card" value="" tabindex="5" readonly>
+				</div>
+				<div class="col-6">
+					<input type="text" id="card-number" class="form-control" title="card number"
+						   aria-label="enter your card number" value="" tabindex="1" readonly>
+					<span class="errordisplay" style="color: red" id="cardError"></span>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col-4"><h6>MM</h6></div>
+				<div class="col-4"><h6>YY</h6></div>
+				<div class="col-4"><h6>CVC</h6></div>
+			</div>
+
+			<div class="row">
+				<div class="col-4">
+					<input type="text" id="expiry-month" class="form-control" title="expiry month"
+						   aria-label="two digit expiry month" value="" tabindex="2" readonly>
+					<span class="errordisplay" style="color: red" id="expiryMonthError"></span>
+				</div>
+
+				<div class="col-4">
+					<input type="text" id="expiry-year" class="form-control" title="expiry year"
+						   aria-label="two digit expiry year" value="" tabindex="3" readonly>
+					<span class="errordisplay" style="color: red" id="expiryYearError"></span>
+				</div>
+
+				<div class="col-4">
+					<input type="text" id="security-code" class="form-control" title="security code"
+						   aria-label="three digit CCV security code" value="" tabindex="4" readonly>
+					<span class="errordisplay" style="color: red" id="securityCodeError"></span>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-4"></div>
+				<div class="col-4">
+					<button style="margin-left: -13px; margin-top: 10px;width:135px" type="button"
+							class="btn btn-primary" id="payButton"
+					>Pay Now
+					</button>
+				</div>
+			</div>
+			<div style="width:100%; text-align:center;margin-top: 15px;">
+				<div style="cursor:pointer" ><u>Cancel</u></div>
+			</div>
+
+		</div>
+		<br>
+
+	</div>
+</ng-template>

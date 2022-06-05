@@ -1,0 +1,37 @@
+#product {
+	font-family: Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	margin-left: -10px
+}
+
+#product td, #product th {
+	border: 1px solid #ddd;
+	padding: 8px;
+	border-right: none;
+	border-left: none;
+}
+
+#product tr:nth-child(even){background-color: #f2f2f2;}
+
+#product tr:hover {background-color: #ddd;}
+
+#product th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #646C9A;
+	color: white;
+}
+
+.logo_img{
+	background-color: #674f4f;
+	height: 25px;
+	width: 25px;
+	padding: 4px;
+	border-radius: 50%;
+	position: absolute;
+	bottom: -9px;
+	right: 20px;
+	cursor: pointer;
+}

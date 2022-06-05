@@ -1,0 +1,483 @@
+<mat-card *ngIf="fetchProfileDetails?.enrollmentStatus !== 'VERIFIED'" class="example-card">
+	<kt-alert *ngIf="fetchProfileDetails?.enrollmentStatus == 'FLAGGED'" type="primary" [showCloseButton]="true" >
+		{{remarks.message}}
+	</kt-alert>
+	<form #validationForm="ngForm">
+		<div class="row">
+			<div class="col-12">
+				<mat-horizontal-stepper  (selectionChange)="selectHeader($event)" [selectedIndex]="indexSelected">
+					<mat-step label="Account">
+					</mat-step>
+					<mat-step label="General">
+					</mat-step>
+					<mat-step label="Physical Address">
+					</mat-step>
+					<mat-step label="Banking">
+					</mat-step>
+				</mat-horizontal-stepper>
+			</div>
+		</div>
+		<!--  //variant information-->
+		<div class="row">
+			<div class="col-12">
+				<div *ngIf="indexSelected == 0">
+					<ng-container *ngTemplateOutlet="account" ></ng-container>
+				</div>
+
+				<div *ngIf="indexSelected == 1">
+					<ng-container *ngTemplateOutlet="general"></ng-container>
+				</div>
+
+				<div *ngIf="indexSelected == 2">
+					<ng-container *ngTemplateOutlet="address"></ng-container>
+				</div>
+
+				<div *ngIf="indexSelected == 3">
+					<ng-container *ngTemplateOutlet="bank"></ng-container>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-6"></div>
+			<div class="col-6">
+				<div class="footer">
+					<div class="footerBtn">
+						<button mat-stroked-button color="primary" style="margin-right: 8px" *ngIf="indexSelected !== 0"
+								(click)="prev()">
+							Previous
+						</button>
+						<button mat-flat-button color="primary" (click)="next()" *ngIf="indexSelected !== 3">Next
+						</button>
+						<button mat-raised-button color="primary" (click)="onSubmit()"
+								[disabled]="loading"
+								[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}"
+								*ngIf="indexSelected == 3">{{'Submit'}}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+</mat-card>
+
+
+
+<mat-card *ngIf="update">
+	<mat-tab-group>
+		<mat-tab label="First">
+			<ng-container *ngTemplateOutlet="account">
+			</ng-container>
+			<div class="row col-12 justify-content-end">
+				<button mat-raised-button color="primary" (click)="onSubmit()"
+						[disabled]="loading"
+						[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">{{'Update'}}</button>
+			</div>
+		</mat-tab>
+		<mat-tab label="General">
+			<ng-container *ngTemplateOutlet="general"></ng-container>
+			<div class="row col-12 justify-content-end">
+				<button mat-raised-button color="primary" (click)="onSubmit()"
+						[disabled]="loading"
+						[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">{{'Update'}}</button>
+			</div>
+		</mat-tab>
+		<mat-tab label="Address">
+			<ng-container *ngTemplateOutlet="address"></ng-container>
+			<div class="row col-12 justify-content-end">
+				<button mat-raised-button color="primary" (click)="onSubmit()"
+						[disabled]="loading"
+						[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">{{'Update'}}</button>
+			</div>
+		</mat-tab>
+		<mat-tab label="Bank">
+			<ng-container *ngTemplateOutlet="bank"></ng-container>
+			<div class="row col-12 justify-content-end">
+				<button mat-raised-button color="primary" (click)="onSubmit()"
+						[disabled]="loading"
+						[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">{{'Update'}}</button>
+			</div>
+		</mat-tab>
+	</mat-tab-group>
+
+</mat-card>
+
+<mat-progress-bar *ngIf="loading" mode="buffer"></mat-progress-bar>
+
+<kt-portlet *ngIf="fetchProfileDetails?.enrollmentStatus == 'VERIFIED' && !update">
+
+	<kt-portlet-header [title]="'My Profile'" [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<button mat-raised-button color="primary" (click)="update = true"
+					[disabled]="loading"
+					[ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}">{{'Edit'}}</button>
+		</ng-container>
+	</kt-portlet-header>
+	<kt-portlet-body>
+
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-8"><h5
+				style="color: black">{{fetchProfileDetails?.businessName == '' || fetchProfileDetails?.businessName == null ? 'N/A' : fetchProfileDetails?.businessName.toUpperCase()}}</h5>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Enrollment Status:</span></div>
+					<div class="col-xs-6 col-sm-6 col-md-4"><span
+						class="kt-badge kt-badge--inline kt-badge--pill"
+						style="background-color: limegreen; color: white; margin-bottom: 2px">{{fetchProfileDetails?.enrollmentStatus == '' || fetchProfileDetails?.enrollmentStatus == null ? 'N/A' : fetchProfileDetails?.enrollmentStatus}}</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><h6>Merchant ID:</h6></div>
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<h6>{{fetchProfileDetails?.merchantId == '' || fetchProfileDetails?.merchantId == null ? 'N/A' : fetchProfileDetails?.merchantId}}</h6>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><h6>Email:</h6></div>
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						<h6>{{fetchProfileDetails?.email == '' || fetchProfileDetails?.email == null ? 'N/A' : fetchProfileDetails?.email}}</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span> Contact Number:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{fetchProfileDetails?.contactNumber == '' || fetchProfileDetails?.contactNumber == null ? 'N/A' : fetchProfileDetails?.contactNumber}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Web Address:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{fetchProfileDetails?.webAddress == '' || fetchProfileDetails?.webAddress == null ? 'N/A' : fetchProfileDetails?.webAddress}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Industry: </span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{fetchProfileDetails?.industry == '' || fetchProfileDetails?.industry == null ? 'N/A' : fetchProfileDetails?.industry}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Email Verified:</span></div>
+					<div class="col-xs-6 col-sm-6 col-md-4"><span
+						class="kt-badge kt-badge--inline kt-badge--pill"
+						style="background-color: limegreen; color: white; margin-bottom: 2px">{{fetchProfileDetails?.verified == '' || fetchProfileDetails?.verified == null ? 'N/A' : fetchProfileDetails?.verified}}</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Display Name:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-4">{{fetchProfileDetails?.displayName == '' || fetchProfileDetails?.displayName == null ? 'N/A' : fetchProfileDetails?.displayName}}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Question 1:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-4">{{fetchProfileDetails?.usesQuestion1 == '' || fetchProfileDetails?.usesQuestion1 == null ? 'N/A' : fetchProfileDetails?.usesQuestion1}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Question 2:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-4">{{fetchProfileDetails?.usesQuestion2 == '' || fetchProfileDetails?.usesQuestion2 == null ? 'N/A' : fetchProfileDetails?.usesQuestion2}}</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<mat-divider></mat-divider>
+		<br>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-4"><h6 style="color: black">Address:</h6>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-5"><span>Country:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{!!fetchProfileDetails?.countryName  ? fetchProfileDetails?.countryName : 'N/A'}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-5"><span>Address 1:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{fetchProfileDetails?.address1 == '' || fetchProfileDetails?.address1 == null ? 'N/A' : fetchProfileDetails?.address1}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-5"><span>Address 2:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{fetchProfileDetails?.address2 == '' || fetchProfileDetails?.address2 == null ? 'N/A' : fetchProfileDetails?.address2}}</div>
+				</div>
+
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-4"><h6 style="color: black">Bank:</h6>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Account Number:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{fetchProfileDetails?.accountNumber == '' || fetchProfileDetails?.accountNumber == null ? 'N/A' : fetchProfileDetails?.accountNumber}}</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6 col-sm-6 col-md-4"><span>Nib:</span></div>
+					<div
+						class="col-xs-6 col-sm-6 col-md-6">{{fetchProfileDetails?.nib == '' || fetchProfileDetails?.nib == null ? 'N/A' : fetchProfileDetails?.nib}}</div>
+				</div>
+			</div>
+		</div>
+
+	</kt-portlet-body>
+
+</kt-portlet>
+
+
+
+<ng-template #account>
+	<div class="row container-fluid m-t-20" >
+		<div class="col-sm-12">
+			<form #validationFormAccount="ngForm">
+				<div class="row ">
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>Name</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.businessName"
+								   #businessName='ngModel'
+								   name="businessName"
+								   required>
+							<mat-error>
+								Name is Required
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>Email</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.email"
+								   name="email"
+								   disabled
+								   required
+								   autocomplete="off">
+						</mat-form-field>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+</ng-template>
+
+<ng-template #general>
+	<div class="row container-fluid m-t-20" >
+
+		<div class="col-sm-12">
+			<form #validationFormGeneral=ngForm>
+				<div class="row ">
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>Contact No</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.contactNumber"
+								   name="contactNumber"
+								   required
+								   numbersOnly
+								   #contact=ngModel
+								   autocomplete="off">
+							<mat-hint *ngIf="flaggedObj.contactNumber.flagged && contact.pristine" style="width: 100%">
+								<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+									Update Required *
+								</div>
+							</mat-hint>
+
+						</mat-form-field>
+					</div>
+
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-select [(ngModel)]="profileDetails.countryId" #country=ngModel
+										placeholder="Select Country" name="country">
+								<mat-option *ngFor="let countryData of countryDropdownList"
+											[value]="countryData.countryId" (click)="flagCon = false">{{countryData.countryName}}</mat-option>
+							</mat-select>
+							<mat-hint *ngIf="flaggedObj.countryId.flagged && flagCon" style="width: 100%">
+								<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+									Update Required *
+								</div>
+							</mat-hint>
+
+						</mat-form-field>
+					</div>
+
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-select [(ngModel)]="profileDetails.industry" name="industry"
+										placeholder="Select Industry" name="industry">
+								<mat-option *ngFor="let industryData of industryDropdownList"
+											[value]="industryData.id" (click)="flagInd = false">{{industryData.name}}</mat-option>
+							</mat-select>
+							<mat-hint *ngIf="flaggedObj.industry.flagged && flagInd" style="width: 100%">
+								<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+									Update Required *
+								</div>
+							</mat-hint>
+
+						</mat-form-field>
+					</div>
+				</div>
+				<br>
+				<div class="row ">
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>IVA Number</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.ivaNumber"
+								   name="ivaNumber"
+								   required
+								   numbersOnly
+								   autocomplete="off">
+
+						</mat-form-field>
+					</div>
+
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>Web Address</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.webAddress"
+								   name="webAddress"
+								   required
+								   #web=ngModel
+								   autocomplete="off">
+							<mat-hint *ngIf="flaggedObj.webAddress.flagged && web.pristine" style="width: 100%">
+								<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+									Update Required *
+								</div>
+							</mat-hint>
+
+						</mat-form-field>
+					</div>
+
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>Display Name</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.displayName"
+								   name="displayName"
+								   #dis=ngModel
+								   required
+								   autocomplete="off">
+							<mat-hint *ngIf="flaggedObj.displayName.flagged && dis.pristine" style="width: 100%">
+								<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+									Update Required *
+								</div>
+							</mat-hint>
+
+						</mat-form-field>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-6 ">
+						<mat-form-field class="example-full-width" appearance="fill">
+							<mat-label>Where did you hear about SmartPay?</mat-label>
+							<input [(ngModel)]="profileDetails.usesQuestion1" name="usesQuestion1" matInput
+								   #question1 maxlength="256">
+						</mat-form-field>
+					</div>
+
+					<div class="col-6">
+						<mat-form-field class="example-full-width" appearance="fill">
+							<mat-label>How will you use SmartPay?</mat-label>
+							<input [(ngModel)]="profileDetails.usesQuestion2" name="usesQuestion2" matInput
+								   #question2 maxlength="256">
+						</mat-form-field>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+</ng-template>
+
+<ng-template #address>
+	<div class="row container-fluid m-t-20" >
+		<div class="col-sm-12">
+			<form #validationFormAddress="ngForm"></form>
+			<div class="row ">
+				<div class="col-4">
+					<mat-form-field style="width: 100%">
+						<mat-label>Address 1</mat-label>
+						<input matInput
+							   [(ngModel)]="profileDetails.address1"
+							   name="address1"
+							   required
+							   #add1=ngModel
+							   autocomplete="off">
+						<mat-hint *ngIf="flaggedObj.address1.flagged && add1.pristine" style="width: 100%">
+							<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+								Update Required *
+							</div>
+						</mat-hint>
+
+					</mat-form-field>
+				</div>
+				<div class="col-4">
+					<mat-form-field style="width: 100%">
+						<mat-label>Address 2</mat-label>
+						<input matInput
+							   [(ngModel)]="profileDetails.address2"
+							   name="address2"
+							   required
+							   #add2 = ngModel
+							   autocomplete="off">
+						<mat-hint *ngIf="flaggedObj.address2.flagged && add2.pristine" style="width: 100%">
+							<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+								Update Required *
+							</div>
+						</mat-hint>
+
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #bank>
+	<div class="row container-fluid m-t-20" >
+		<div class="col-sm-12">
+			<form #validationFormBank="ngForm">
+				<div class="row ">
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>Account Number</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.accountNumber"
+								   name="accountNumber"
+								   required
+								   numbersOnly
+								   #acc=ngModel
+								   autocomplete="off">
+							<mat-hint *ngIf="flaggedObj.accountNumber.flagged && acc.pristine" style="width: 100%">
+								<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+									Update Required *
+								</div>
+							</mat-hint>
+
+						</mat-form-field>
+					</div>
+					<div class="col-4">
+						<mat-form-field style="width: 100%">
+							<mat-label>Nib</mat-label>
+							<input matInput
+								   [(ngModel)]="profileDetails.nib"
+								   name="nib"
+								   required
+								   #nib=ngModel
+								   autocomplete="off">
+							<mat-hint *ngIf="flaggedObj.nib.flagged && nib.pristine" style="width: 100%">
+								<div style="width: 100%;color:white;background-color: red;padding: 7px 2px;text-align: center;border-radius: 0 0 10px 10px">
+									Update Required *
+								</div>
+							</mat-hint>
+
+						</mat-form-field>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</ng-template>
+

@@ -1,0 +1,24 @@
+<kt-splash-screen *ngIf="loader"></kt-splash-screen>
+<div *ngIf="showLoader">
+	<div style="position: fixed;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	right: 0;
+	background: rgb(255 255 255 / 63%);
+	top: 0;
+	z-index: 99999999;">
+		<div style="position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 80px;
+		height: 80px;
+		margin: auto;
+		top: 0;">
+			<img  class="loading-image" style="width: 100%;" src="assets/media/loading/loading.gif" />
+		</div>
+	</div>
+</div>
+<router-outlet></router-outlet>
+

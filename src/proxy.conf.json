@@ -1,0 +1,8 @@
+
+{
+	"/api/*": {
+		"target": "https://dev.merchant.emali.africa/shopping",
+		"secure": false,
+		"logLevel": "debug"
+	}
+}

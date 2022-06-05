@@ -1,0 +1,89 @@
+<kt-portlet>
+	<kt-portlet-header [title]="'Customers list'" [class]="'kt-portlet__head--lg'">
+		<ng-container ktPortletTools>
+			<div fxLayout fxLayoutAlign="center center">
+				<mat-form-field appearance="outline" style="margin-top: 15px;">
+					<mat-label>Search</mat-label>
+					<input matInput placeholder="Search" [(ngModel)]="filterName" #searchTxt>
+					<mat-icon matSuffix style="cursor: pointer"  [matTooltip]="'Search'" (click)="doFilter(searchTxt.value)">search</mat-icon>
+				</mat-form-field>
+			</div>
+		</ng-container>
+	</kt-portlet-header>
+	<kt-portlet-body>
+		<div class="kt-form__filtration">
+			<div class="row align-items-center">
+				<div id="header-search" class="col-xs-12 col-sm-12 col-md-8 kt-margin-bottom-10-mobile">
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-3 kt-margin-bottom-10-mobile">
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-1 kt-margin-bottom-10-mobile">
+					<button mat-raised-button  style="float: right; background-color: #44aea8" (click)="reloadList()" [matTooltip]="'Reload List'" class="button-row">
+						<mat-icon style="width: 25px; color: white">refresh</mat-icon></button>
+				</div>
+
+			</div>
+		</div>
+		<div class="example-container" style="margin-top: 15px">
+		<mat-table #table [dataSource]="dataSource" matSort>
+			<!-- Position Column -->
+			<ng-container matColumnDef="sn">
+				<mat-header-cell *matHeaderCellDef mat-sort-header>S.N</mat-header-cell>
+				<mat-cell *matCellDef="let element; let i= index"> {{ (queryFilter.pageNumber - 1) * queryFilter.pageSize + i + 1 }} </mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="fullName">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> Full name</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
+			</ng-container>
+			<!-- Name Column -->
+			<ng-container matColumnDef="email">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> Email</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+			</ng-container>
+			<!-- Weight Column -->
+			<ng-container matColumnDef="phone">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> Phone No</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+			</ng-container>
+			<!-- Symbol Column -->
+			<ng-container matColumnDef="shippingAddress1">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> Address 1</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.shippingAddress1}} </mat-cell>
+			</ng-container>
+			<ng-container matColumnDef="shippingAddress2">
+				<mat-header-cell *matHeaderCellDef mat-sort-header> Address 2 </mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.shippingAddress2}} </mat-cell>
+			</ng-container>
+
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
+			<!-- Message for empty data  -->
+			<div class="mat-table__message" *ngIf="noData"
+				 style="height: 100px;
+				 text-align: center;
+				 display: flex;
+				 flex-direction: column;
+				 justify-content: center;
+				 align-items: center;
+				 font-size: 16px;">
+				<mat-icon style="font-size: 25px !important;">warning</mat-icon>
+				<p>No records found</p>
+			</div><!-- Message for empty data  -->
+			<div class="mat-table__message" *ngIf="waiting">Please wait....</div>
+		</div>
+
+		<mat-paginator #paginator
+					   [pageSize]="10"
+					   [pageSizeOptions]="[10,20,30,40]"
+					   (page) = "onPaginationChange($event)"
+					   [length] = "totalData"
+					   [showFirstLastButtons]="true">
+		</mat-paginator>
+
+
+	</kt-portlet-body>
+</kt-portlet>
+
+

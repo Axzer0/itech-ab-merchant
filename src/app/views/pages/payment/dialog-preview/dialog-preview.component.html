@@ -1,0 +1,30 @@
+<mat-card style="height: 400px">
+	<div style="font-size: 16px"> Refund Request </div>
+	<hr>
+	<div class="row col-12" >
+		<label class="col-5" style="margin-top: 15px;font-weight: bold"> Remarks :</label>
+		<mat-form-field class="col-7" appearance="outline">
+			<mat-label>Remark</mat-label>
+			<input matInput placeholder="Placeholder" [(ngModel)]="remarks">
+		</mat-form-field>
+	</div>
+	<div class="col-12">
+		<div class="kt-margin-bottom-20-mobile">
+			<img [src]="voucher" height="150" width="150" alt="Voucher">
+			<button mat-button color="warn" (click)="proofPaymentPhoto.click()">
+				<mat-icon>file_upload</mat-icon>
+				Upload your Document
+			</button>
+			<br>
+			<input type="file" #proofPaymentPhoto id="fileUpload" [(ngModel)]="imgData"
+				   name="proofPaymentPhoto" accept="image/jpeg"
+				   style="display:none;" (change)="uploadCompanyLogo($event)" Upload Voucher/>
+		</div>
+	</div>
+	<hr>
+	<div style="display: flex;justify-content: flex-end">
+		<button mat-stroked-button  matTooltip="Cancel"  (click)="onSubmit()" style="margin-right: 5px">Submit</button>
+		<button mat-stroked-button  matTooltip="Cancel"  (click)="onNoClick()">Cancel</button>
+	</div>
+</mat-card>
+
